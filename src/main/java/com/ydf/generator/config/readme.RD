@@ -1,0 +1,4 @@
+DruidConfig
+DruidStatFilter
+DruidStatViewServlet
+这三个配置文件可以不生成，也是可以正常运行的

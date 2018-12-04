@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydf.generator.mapper.ColumnMapper">
+
+    <select id="selectList" resultType="com.ydf.generator.entity.Column">
+        SELECT
+			`column_name` as columnName,
+			`data_type` as jdbcType,
+			`column_key` as columnKey,
+			`is_nullable` as isNullable,
+			`column_comment` as columnComment
+		FROM
+			information_schema.COLUMNS
+		WHERE
+			`table_schema` = #{schema,jdbcType=VARCHAR}
+			AND `table_name` = #{table,jdbcType=VARCHAR}
+    </select>
+</mapper>
