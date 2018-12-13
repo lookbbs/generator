@@ -32,3 +32,6 @@
 	
 	扩充mapper.xml
 	
+# Web界面操作
+运行：GeneratorApplication.java
+默认访问地址：localhost:8080
