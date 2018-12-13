@@ -1,11 +1,9 @@
 package ${basePackage}.dao;
 
 import ${basePackage}.entity.${entityName};
-import ${basePackage}.entity.${entityName}Example;
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * ${tableComment!}

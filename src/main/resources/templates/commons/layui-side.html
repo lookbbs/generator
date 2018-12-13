@@ -1,0 +1,18 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="layui-side">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="config">
+            <li class="layui-nav-item layui-nav-itemed">
+                <a class="" href="javascript:;">生成配置</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:void(0)" th:lay-href="@{/code/table}">代码生成配置</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

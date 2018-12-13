@@ -12,7 +12,7 @@
 		FROM
 			information_schema.COLUMNS
 		WHERE
-			`table_schema` = #{schema,jdbcType=VARCHAR}
+			`table_schema` = (select database())
 			AND `table_name` = #{table,jdbcType=VARCHAR}
     </select>
 </mapper>

@@ -4,15 +4,14 @@
 
     <select id="selectList" resultType="com.ydf.generator.entity.Table">
         SELECT
+            `table_schema` as tableSchema,
             `table_name` as tableName,
             `table_comment` as tableComment
         FROM
           `information_schema`.`TABLES`
         <where>
             `table_type` = 'base table'
-            <if test="schema != null and schema != ''">
-                and `table_schema` = #{schema,jdbcType=VARCHAR}
-            </if>
+            and `table_schema` = (select database())
             <if test="tables != null and tables.length > 0">
                 and `table_name` in
                 <foreach collection="tables" index="index" item="item" open="(" separator="," close=")">

@@ -2,7 +2,7 @@
 <html lang="zh-cn">
 <head>
     <title>添加${tableComment!}</title>
-    ${"<#include \"/common/head.ftl\" />"}
+${"<#include \"/common/head.ftl\" />"}
 </head>
 <body>
 <div class="layui-fluid">
@@ -12,16 +12,20 @@
                      <#list columns as col>
                          <#if col.fieldName == "remark">
             <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">${col.columnComment!}：</label>
+                <label class="layui-form-label">${col.fieldText!}：</label>
                 <div class="layui-input-block">
-                    <textarea name="remark" placeholder="请输入${col.columnComment!}" class="layui-textarea" title="${col.columnComment!}"></textarea>
+                    <textarea name="remark" placeholder="请输入${col.fieldText!}" class="layui-textarea" title="${col.fieldText!}"></textarea>
                 </div>
             </div>
                          <#else>
             <div class="layui-form-item">
-                <label class="layui-form-label">${col.columnComment!}：</label>
+                <label class="layui-form-label">${col.fieldText!}：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="${col.fieldName!}" placeholder="请输入${col.columnComment!}" <#if col.isNullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.columnComment!}">
+                    <#if col.jdbcType=="Date">
+                    <input type="text" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}' title="${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if>>
+                    <#else>
+                    <input type="text" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" title="${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if>>
+                    </#if>
                 </div>
             </div>
                          </#if>

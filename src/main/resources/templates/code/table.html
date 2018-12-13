@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/jquery/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/layui/layui.all.js}"></script>
+</head>
+<body>
+<div class="layui-card layui-form">
+    <div class="layui-card-header">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>表名数据列表</legend>
+                </fieldset>
+            </div>
+            <div class="layui-inline layui-layout-right">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="generator">代码生成</button>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card-body">
+        <table id="tableList" class="layui-table" lay-filter="tableList">
+            <thead>
+            <tr>
+                <th lay-data="{type:'checkbox'}"><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                <th lay-data="{field:'tableSchema', fixed: true}">Schema</th>
+                <th lay-data="{field:'tableName', sort: true, fixed: true}">Table</th>
+                <th lay-data="{field:'tableComment', fixed: true}">备注</th>
+                <th lay-data="{field: 'right',fixed: true}">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="item : ${list}">
+                <td><input type="checkbox" name="checkbox" lay-skin="primary" th:attr="data-table=${item.tableName}"></td>
+                <td th:text="${item.tableSchema}"></td>
+                <td th:text="${item.tableName}"></td>
+                <td th:text="${item.tableComment}"></td>
+                <td>
+                    <a class="layui-btn layui-btn-xs" th:href="@{/code/table/{table}/column(table=${item.tableName})}" target="_blank" th:attr="data-table=${item.tableName}">编辑</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/code/table}" class="layui-hide" id="exportUrl"></a>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['table', 'form'], function () {
+        var form = layui.form;
+        form.on('checkbox(allChoose)', function (data) {
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function (index, item) {
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+
+        form.on('submit(generator)', function (data) {
+            var child = $("table tbody :checked");
+            if (child.length == 0) {
+                layer.alert('请勾选需要生成代码的表', {icon: 7});
+                return false;
+            }
+            var tabs = [];
+            child.each(function () {
+                var d = $(this).data("table");
+                if (!!d) {
+                    tabs.push($(this).data("table"));
+                }
+            });
+            console.log(tabs.join(","))
+            var url = $("#exportUrl").attr("href");
+            var $form = $('<form></form>');
+            $form.attr('action', url + "?rand=" + Math.random());
+            $form.attr('method', 'post');
+
+            var $input = $("<input>");
+            $input.attr("type", "hidden");
+            $input.attr("name", "tables");
+            $input.attr("value", tabs.join(","));
+            $form.append($input);
+
+            $form.appendTo('body').submit().remove();
+            return false;
+        });
+        form.render();
+    })
+</script>
+</body>
+</html>

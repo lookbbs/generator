@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2018/12/4
  */
 @Configuration
-@ConfigurationProperties(prefix = "com.ydf")
+@ConfigurationProperties(prefix = "ydf")
 @EnableConfigurationProperties(GeneratorProperties.class)
 public class GeneratorProperties {
 

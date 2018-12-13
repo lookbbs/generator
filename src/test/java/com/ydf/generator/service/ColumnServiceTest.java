@@ -25,9 +25,8 @@ public class ColumnServiceTest {
 
     @Test
     public void selectList() throws JsonProcessingException {
-        String schema = "gm_platform";
         String table = "sys_user";
-        List<ColumnDto> lst = columnService.selectList(schema, table);
+        List<ColumnDto> lst = columnService.selectList(table);
         for (Column col : lst) {
             System.out.println(new ObjectMapper().writeValueAsString(col));
         }

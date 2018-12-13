@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    ${"<#include \"/common/head.ftl\" />"}
+${"<#include \"/common/head.ftl\" />"}
     <title>${tableComment!}</title>
     <style type="text/css">
         .layui-input {
@@ -19,16 +19,16 @@
                 <#if columns??>
                     <#list columns as col>
                         <#if col.search>
-                            <#if col_index < 4>
                 <div class="layui-inline">
-                    <label class="layui-form-label">${col.columnComment!}：</label>
+                    <label class="layui-form-label">${col.fieldText!}：</label>
                     <div class="layui-input-inline">
-                        <#if col.jdbcType=="varchar" || col.jdbcType=="int" || col.jdbcType=="long">
-                        <input type="text" name="${col.fieldName}" placeholder="请输入${col.columnComment!}" autocomplete="off" class="layui-input">
+                        <#if col.jdbcType=="Date">
+                            <input type="text" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}'>
+                        <#else>
+                            <input type="text" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input">
                         </#if>
                     </div>
                 </div>
-                            </#if>
                         </#if>
                     </#list>
                 </#if>

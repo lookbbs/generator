@@ -27,7 +27,7 @@ public interface ${entityName}Service extends BaseService<${entityName},${primar
      * @param username 操作者用户名
      * @return
      */
-    int delete(Long id,String username);
+    int delete(${primaryKey.javaType} id,String username);
 
     List<${entityName}> selectList(${entityName} record);
 

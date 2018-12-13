@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * auto-code工具 自动生成
- */
+ *
  * @author auto-code
  * @date ${.now?string("yyyy-MM-dd")}
  */
@@ -40,7 +40,7 @@ public class ${entityName}Controller {
      * @param model
      * @return
      */
-    @GetMapping(value = "/index")
+    @GetMapping
     @RequiresPermissions("${variableName}:page")
     public String index(Model model) {
         return "/${variableName}/${variableName}List";
@@ -87,7 +87,7 @@ public class ${entityName}Controller {
      */
     @RequiresPermissions(value = "${variableName}:view")
     @GetMapping(value = "/{id:\\w+}")
-    public String detail(@PathVariable("id") Long id, Model model) {
+    public String detail(@PathVariable("id") ${primaryKey.javaType} id, Model model) {
         ${entityName} record = ${variableName}Service.selectByPrimaryKey(id);
         model.addAttribute("record", record);
         return "/${variableName}/${variableName}Detail";

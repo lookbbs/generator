@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/jquery/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/layui/layui.all.js}"></script>
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend th:text="${table} + 表的列配置"></legend>
+</fieldset>
+<form class="layui-form" th:action="@{/code/table/{table}/column(table=${table})}" method="post">
+    <table class="layui-table" lay-filter="table">
+        <thead>
+        <tr>
+            <th lay-data="{field:'columnComment',align:'center', fixed: true}">列名备注</th>
+            <th lay-data="{field:'columnName', align:'center',sort: true, fixed: true}">列名</th>
+            <th lay-data="{field: 'jdbcType',align:'center',fixed: true}">数据类型</th>
+            <th lay-data="{field: 'isNullable',align:'center',fixed: true}" title="此配置为表单输入项非空验证配置">可以为空</th>
+            <th lay-data="{field:'fieldName', align:'center',fixed: true}">字段名</th>
+            <th lay-data="{field:'showTitle', align:'center',fixed: true}">显示的名称</th>
+            <th lay-data="{field:'isShow', align:'center',fixed: true}">列表中是否显示该列</th>
+            <th lay-data="{field: 'isSearch',align:'center',fixed: true}">是否为搜索条件</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="item : ${list}">
+            <td th:text="${item.columnComment}"></td>
+            <td th:text="${item.columnName}"></td>
+            <td th:text="${item.jdbcType}"></td>
+            <td>
+                <input type="checkbox" name="nullable" lay-skin="switch" lay-text="是|否" th:checked="${item.isNullable eq 'YES'}">
+            </td>
+            <td th:text="${item.fieldName}"></td>
+            <td>
+                <input type="text" name="fieldText" th:value="${item.fieldText != null ? item.fieldText : item.columnComment}" th:placeholder="'请输入' + ${item.columnComment}" autocomplete="off" class="layui-input">
+            </td>
+            <td>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" th:checked="${item.show}">
+                    <input type="hidden" name="columnName" th:value="${item.columnName}"/>
+                </div>
+            </td>
+            <td>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="search" lay-skin="switch" lay-text="是|否" th:checked="${item.search}">
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="save">保存</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use(['form'], function () {
+        var form = layui.form;
+
+        form.on('submit(save)', function () {
+            var dataArray = [];
+            $("tr:not(:first)").each(function () {
+                var t = {};
+                $(this).find("input").each(function () {
+                    if (this.type == 'checkbox') {
+                        if (this.checked) {
+                            t[this.name] = $(this).val();
+                        }
+                    } else {
+                        t[this.name] = $(this).val();
+                    }
+                    // t[this.name] = $(this).val();
+                })
+                dataArray.push(t);
+            });
+            var data = JSON.stringify(dataArray);
+
+            $.ajax({
+                url: document.forms.item(0).action,
+                type: document.forms.item(0).method,
+                data: {data: data},
+                success: function (result) {
+                    if (result == 'success') {
+                        layui.layer.msg("保存成功");
+                        window.close();
+                    }
+                }
+            });
+            return false;
+        });
+        form.render()
+    });
+</script>
+</body>
+</html>

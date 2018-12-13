@@ -22,9 +22,8 @@ public class TableServiceTest {
 
     @Test
     public void selectList() {
-        String schema = "gm_platform";
         String[] tables = "sys_user".split(",");
-        List<TableDto> lst = tableService.selectList(schema, tables);
+        List<TableDto> lst = tableService.selectList(tables);
         System.out.println(lst.size());
     }
 }

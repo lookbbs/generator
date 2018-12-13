@@ -39,7 +39,7 @@ public class ${entityName}ServiceImpl extends BaseServiceImpl<${entityName}, ${p
 
     @Override
     public int delete(${primaryKey.javaType} id, String username) {
-        return ${variableName}Mapper.deleteByPrimaryKey(id, username);
+        return ${variableName}Mapper.deleteByPrimaryKey(id);
     }
 
     @Override

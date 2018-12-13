@@ -1,98 +1,116 @@
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=utf8
+      url: jdbc:mysql://127.0.0.1:3306/db?useUnicode=true&characterEncoding=utf8
       username: root
       password: root
+
+
+
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: utf-8
+    servlet:
+      content-type: text/html
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+
 
 mybatis:
   mapper-locations: classpath:resources/mapper/**/*.xml
   type-aliases-package: com.ydf.generator.entity
 
-com:
-  ydf:
-    template:
-      base-package-path: classes/resources/template
-      page:
-        list:
-          directory: page
-          file-name: list.ftl
-        add:
-          directory: page
-          file-name: add.ftl
-        edit:
-          directory: page
-          file-name: edit.ftl
-        detail:
-          directory: page
-          file-name: view.ftl
+ydf:
+  template:
+    base-package-path: classes/resources/template
+    page:
+      list:
+        directory: page
+        file-name: list.ftl
+      add:
+        directory: page
+        file-name: add.ftl
+      edit:
+        directory: page
+        file-name: edit.ftl
+      detail:
+        directory: page
+        file-name: view.ftl
 
-      js:
-        list:
-          directory: js
-          file-name: list.ftl
-        edit:
-          directory: js
-          file-name: edit.ftl
+    js:
+      list:
+        directory: js
+        file-name: list.ftl
+      edit:
+        directory: js
+        file-name: edit.ftl
 
-      server:
-        controller:
-          directory: controller
-          file-name: controller.ftl
-        service:
-          directory: service
-          file-name: service.ftl
-        service-impl:
-          directory: service/impl
-          file-name: serviceImpl.ftl
-        dao:
-          directory: dao
-          file-name: mapper.ftl
-        mapper:
-          directory: mapper
-          file-name: mapper.ftl
+    server:
+      controller:
+        directory: controller
+        file-name: controller.ftl
+      service:
+        directory: service
+        file-name: service.ftl
+      service-impl:
+        directory: service/impl
+        file-name: serviceImpl.ftl
+      dao:
+        directory: dao
+        file-name: mapper.ftl
+      mapper:
+        directory: mapper
+        file-name: mapper.ftl
 
-    target:
-      baseDir: d:/code/
-      basePackage: com.honglu.game.merchant
-      page:
-        list:
-          directory: page
-          fileName: ${variableName}List.ftl
-        add:
-          directory: page
-          fileName: ${variableName}Add.ftl
-        edit:
-          directory: page
-          fileName: ${variableName}Edit.ftl
-        detail:
-          directory: page
-          fileName: ${variableName}Detail.ftl
-      js:
-        list:
-          directory: js
-          fileName: ${variableName}List.js
-        edit:
-          directory: js
-          fileName: ${variableName}Edit.js
+  target:
+    baseDir: d:/code/
+    basePackage: com.honglu.game.merchant
+    page:
+      list:
+        directory: page/${variableName}
+        fileName: ${variableName}List.ftl
+      add:
+        directory: page/${variableName}
+        fileName: ${variableName}Add.ftl
+      edit:
+        directory: page/${variableName}
+        fileName: ${variableName}Edit.ftl
+      detail:
+        directory: page/${variableName}
+        fileName: ${variableName}Detail.ftl
+    js:
+      list:
+        directory: js/${variableName}
+        fileName: ${variableName}List.js
+      edit:
+        directory: js/${variableName}
+        fileName: ${variableName}Edit.js
 
-      server:
-        controller:
-          directory: controller
-          fileName: ${entityName}Controller.java
-        service:
-          directory: service
-          fileName: ${entityName}Service.java
-        serviceImpl:
-          directory: service/impl
-          fileName: ${entityName}ServiceImpl.java
-        dao:
-          directory: dao
-          fileName: ${entityName}Mapper.java
-        mapper:
-          directory: mapper/extend
-          fileName: ${entityName}Mapper.xml
+    server:
+      controller:
+        directory: controller
+        fileName: ${entityName}Controller.java
+      service:
+        directory: service
+        fileName: ${entityName}Service.java
+      serviceImpl:
+        directory: service/impl
+        fileName: ${entityName}ServiceImpl.java
+      dao:
+        directory: dao
+        fileName: ${entityName}Mapper.java
+      mapper:
+        directory: mapper/extend
+        fileName: ${entityName}Mapper.xml
 
 

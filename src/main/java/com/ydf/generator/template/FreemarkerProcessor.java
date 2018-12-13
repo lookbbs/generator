@@ -31,13 +31,25 @@ public class FreemarkerProcessor {
         return template;
     }
 
-    public void writeToFile(String baseDir,String targetDir, String outFile, Object data, Template template) {
+    /**
+     * 根据模板文件，模型数据生成对应的文件
+     * @param baseDir 存储生成文件的根路径
+     * @param targetDir 存储生成文件的路径
+     * @param outFile 输出的文件名
+     * @param data 模型数据对象
+     * @param template 模板引擎
+     * @return 生成的文件对象
+     */
+    public File writeToFile(String baseDir, String targetDir, String outFile, Object data, Template template) {
         File targetDirPath = mkdirs(String.format("%s%s",baseDir , targetDir));
-        try (FileWriter out = new FileWriter(new File(targetDirPath, outFile))) {
+        File target = new File(targetDirPath, outFile);
+        try (FileWriter out = new FileWriter(target)) {
             template.process(data, out);
+            return target;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public String writeToString(String templateContent, Object data) {

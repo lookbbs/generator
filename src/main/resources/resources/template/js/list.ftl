@@ -5,15 +5,17 @@
                 url: getCtxPath() + '/${variableName}/list',
                 cols: [[
                     {field: true, fixed: true, title: '序号', width: '80', templet: '<div>{{d.LAY_TABLE_INDEX + 1}}</div>', align: 'center'},
-                    <#if columns??>
-                        <#list columns as col>
-                            <#if col.jdbcType =='datetime'>
-                    {field: '${col.fieldName}', title: '${col.columnComment!}', width: '10%', align: 'center',templet: '<div>{{ honglu.util.dateFormat(d.${col.fieldName}) }}</div>'},
-                            <#else>
-                    {field: '${col.fieldName}', title: '${col.columnComment!}', width: '10%', align: 'center'},
-                            </#if>
-                        </#list>
+            <#if columns??>
+                <#list columns as col>
+                    <#if col.show>
+                        <#if col.jdbcType =='Date'>
+                    {field: '${col.fieldName}', title: '${col.fieldText!}', width: '10%', align: 'center',templet: '<div>{{ honglu.util.dateFormat(d.${col.fieldName}) }}</div>'},
+                        <#else>
+                    {field: '${col.fieldName}', title: '${col.fieldText!}', width: '10%', align: 'center'},
+                        </#if>
                     </#if>
+                </#list>
+            </#if>
                     {field: 'right', fixed: 'right', title: '操作', width: '20%', align: 'center', toolbar: "#tableOptBar"}
                 ]]
             },

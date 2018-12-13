@@ -23,4 +23,3 @@
         honglu.adapter.layui.init(pageConfig);
     }
 })();
-
