@@ -1,0 +1,41 @@
+ydf:
+  target:
+    baseDir: d:/code/
+    basePackage: com.honglu.game.merchant
+    page:
+      list:
+        directory: page/${variableName}
+        fileName: ${variableName}List.ftl
+      add:
+        directory: page/${variableName}
+        fileName: ${variableName}Add.ftl
+      edit:
+        directory: page/${variableName}
+        fileName: ${variableName}Edit.ftl
+      detail:
+        directory: page/${variableName}
+        fileName: ${variableName}Detail.ftl
+    js:
+      list:
+        directory: js/${variableName}
+        fileName: ${variableName}List.js
+      edit:
+        directory: js/${variableName}
+        fileName: ${variableName}Edit.js
+
+    server:
+      controller:
+        directory: controller
+        fileName: ${entityName}Controller.java
+      service:
+        directory: service
+        fileName: ${entityName}Service.java
+      serviceImpl:
+        directory: service/impl
+        fileName: ${entityName}ServiceImpl.java
+      dao:
+        directory: dao
+        fileName: ${entityName}Mapper.java
+      mapper:
+        directory: mapper/extend
+        fileName: ${entityName}Mapper.xml

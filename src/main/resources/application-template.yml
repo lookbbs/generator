@@ -1,0 +1,41 @@
+ydf:
+  template:
+    base-package-path: classes/resources/template
+    page:
+      list:
+        directory: page
+        file-name: list.ftl
+      add:
+        directory: page
+        file-name: add.ftl
+      edit:
+        directory: page
+        file-name: edit.ftl
+      detail:
+        directory: page
+        file-name: view.ftl
+
+    js:
+      list:
+        directory: js
+        file-name: list.ftl
+      edit:
+        directory: js
+        file-name: edit.ftl
+
+    server:
+      controller:
+        directory: controller
+        file-name: controller.ftl
+      service:
+        directory: service
+        file-name: service.ftl
+      service-impl:
+        directory: service/impl
+        file-name: serviceImpl.ftl
+      dao:
+        directory: dao
+        file-name: mapper.ftl
+      mapper:
+        directory: mapper
+        file-name: mapper.ftl
