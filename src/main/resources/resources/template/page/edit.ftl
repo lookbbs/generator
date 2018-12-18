@@ -25,9 +25,9 @@ ${"<#include \"/common/head.ftl\" />"}
                 <div class="layui-input-block">
 
                             <#if col.javaType == 'Date'>
-                    <input type="text" id="${col.fieldName!}" name="${col.fieldName!}" value="${r"${record."}${col.fieldName}${r"?string('yyyy-MM-dd')}"}" placeholder="请输入${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.fieldText!}" lay-date='{format:"yyyy-MM-dd"}'>
+                    <input type="text" id="${col.fieldName!}" name="${col.fieldName!}" value="${r"${(record."}${col.fieldName}${r"?string('yyyy-MM-dd'))!}"}" placeholder="请输入${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.fieldText!}" lay-date='{format:"yyyy-MM-dd"}'>
                             <#elseif col.javaType == "Integer" || col.javaType == "Long">
-                    <input type="text" id="${col.fieldName!}" name="${col.fieldName!}" value="${r"${record."}${col.fieldName}${r"?string('#')}"}" placeholder="请输入${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.fieldText!}">
+                    <input type="text" id="${col.fieldName!}" name="${col.fieldName!}" value="${r"${(record."}${col.fieldName}${r"?string('#'))!}"}" placeholder="请输入${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.fieldText!}">
                             <#else>
                     <input type="text" id="${col.fieldName!}" name="${col.fieldName!}" value="${r"${record."}${col.fieldName}${r"!}"}" placeholder="请输入${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.fieldText!}">
                             </#if>
