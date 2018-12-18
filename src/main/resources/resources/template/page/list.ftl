@@ -22,10 +22,10 @@ ${"<#include \"/common/head.ftl\" />"}
                 <div class="layui-inline">
                     <label class="layui-form-label">${col.fieldText!}：</label>
                     <div class="layui-input-inline">
-                        <#if col.jdbcType=="Date">
-                            <input type="text" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}'>
+                        <#if col.javaType=="Date">
+                            <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}'>
                         <#else>
-                            <input type="text" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input">
+                            <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input">
                         </#if>
                     </div>
                 </div>

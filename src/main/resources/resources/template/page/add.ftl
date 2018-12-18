@@ -10,24 +10,26 @@ ${"<#include \"/common/head.ftl\" />"}
         <div class="layui-form layui-card-body">
                  <#if columns??>
                      <#list columns as col>
-                         <#if col.fieldName == "remark">
+                         <#if 'PRI' != col.columnKey>
+                            <#if col.fieldName == "remark">
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">${col.fieldText!}：</label>
                 <div class="layui-input-block">
-                    <textarea name="remark" placeholder="请输入${col.fieldText!}" class="layui-textarea" title="${col.fieldText!}"></textarea>
+                    <textarea id="${col.fieldName!}" name="remark" placeholder="请输入${col.fieldText!}" class="layui-textarea" title="${col.fieldText!}"></textarea>
                 </div>
             </div>
-                         <#else>
+                            <#else>
             <div class="layui-form-item">
                 <label class="layui-form-label">${col.fieldText!}：</label>
                 <div class="layui-input-block">
-                    <#if col.jdbcType=="Date">
-                    <input type="text" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}' title="${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if>>
-                    <#else>
-                    <input type="text" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" title="${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if>>
-                    </#if>
+                                <#if col.javaType == "Date">
+                    <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}' title="${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if>>
+                                <#else>
+                    <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" title="${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if>>
+                                </#if>
                 </div>
             </div>
+                            </#if>
                          </#if>
                      </#list>
                  </#if>

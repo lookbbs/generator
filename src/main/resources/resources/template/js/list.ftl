@@ -8,7 +8,7 @@
             <#if columns??>
                 <#list columns as col>
                     <#if col.show>
-                        <#if col.jdbcType =='Date'>
+                        <#if col.javaType == 'Date'>
                     {field: '${col.fieldName}', title: '${col.fieldText!}', width: '10%', align: 'center',templet: '<div>{{ honglu.util.dateFormat(d.${col.fieldName}) }}</div>'},
                         <#else>
                     {field: '${col.fieldName}', title: '${col.fieldText!}', width: '10%', align: 'center'},

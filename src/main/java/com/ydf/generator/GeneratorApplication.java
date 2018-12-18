@@ -23,6 +23,6 @@ public class GeneratorApplication {
 
 	@GetMapping
 	public String index(){
-		return "index";
+		return "redirect:/code/table";
 	}
 }

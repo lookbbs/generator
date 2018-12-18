@@ -55,8 +55,6 @@ public class TableController {
     @PostMapping("/{table}/column")
     @ResponseBody
     public ResponseEntity<String> saveColumnConfig(@PathVariable("table") String table, String data) throws IOException {
-        System.out.println(table);
-        System.out.println(data);
         return ResponseEntity.ok(tableService.saveColumn(table, data));
     }
 
