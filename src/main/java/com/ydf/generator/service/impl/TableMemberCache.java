@@ -1,14 +1,11 @@
 package com.ydf.generator.service.impl;
 
 import com.ydf.generator.dto.TableDto;
-import com.ydf.generator.service.TableCache;
+import com.ydf.generator.service.Cache;
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -17,30 +14,30 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author yuandongfei
  * @date 2018/12/12
  */
-public class TableMemberCache implements TableCache {
+public class TableMemberCache implements Cache<TableDto> {
 
     private ConcurrentHashMap<String, TableDto> map = new ConcurrentHashMap<>();
 
     @Override
-    public void put(TableDto table) {
-        map.put(table.getTableName(), table);
+    public void put(String key, TableDto data) {
+        map.put(key, data);
     }
 
     @Override
-    public TableDto get(String tableName) {
-        return map.get(tableName);
+    public TableDto get(String key) {
+        return map.get(key);
     }
 
     @Override
-    public void remove(String tableName) {
-        map.remove(tableName);
+    public void remove(String key) {
+        map.remove(key);
     }
 
     @Override
-    public List<TableDto> selectList(String[] tables) {
+    public List<TableDto> selectList(String[] keys) {
         List<TableDto> result = new ArrayList<>(map.size());
-        if (ArrayUtils.isNotEmpty(tables)) {
-            for (String key : tables) {
+        if (ArrayUtils.isNotEmpty(keys)) {
+            for (String key : keys) {
                 result.add(get(key));
             }
         }

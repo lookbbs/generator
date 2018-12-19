@@ -5,7 +5,7 @@ import com.ydf.generator.dto.TableDto;
 import com.ydf.generator.entity.Column;
 import com.ydf.generator.mapper.ColumnMapper;
 import com.ydf.generator.service.ColumnService;
-import com.ydf.generator.service.TableCache;
+import com.ydf.generator.service.Cache;
 import com.ydf.generator.util.JdbcTypeTool;
 import com.ydf.generator.util.StringTools;
 import org.springframework.beans.BeanUtils;
@@ -27,7 +27,7 @@ public class ColumnServiceImpl implements ColumnService {
     private ColumnMapper columnMapper;
 
     @Autowired
-    private TableCache tableCache;
+    private Cache<TableDto> tableCache;
 
     @Override
     public List<ColumnDto> selectList(String table) {

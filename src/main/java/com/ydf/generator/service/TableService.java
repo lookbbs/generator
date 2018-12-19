@@ -1,5 +1,6 @@
 package com.ydf.generator.service;
 
+import com.ydf.generator.dto.BuildFileConfig;
 import com.ydf.generator.dto.TableDto;
 
 import java.io.File;
@@ -28,4 +29,16 @@ public interface TableService {
      * @throws IOException
      */
     String saveColumn(String table, String data) throws IOException;
+
+    /**
+     * 获取主配置列表
+     * @return
+     */
+    List<BuildFileConfig> getConfigList();
+
+    /**
+     * 保存配置
+     * @param data
+     */
+    void saveConfig(String data);
 }

@@ -15,7 +15,8 @@
                 </fieldset>
             </div>
             <div class="layui-inline layui-layout-right">
-                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="generator">代码生成</button>
+                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="config">主配置</button>
+                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="generator">代码生成</button>
             </div>
         </div>
     </div>
@@ -46,47 +47,28 @@
         <a th:href="@{/code/table}" class="layui-hide" id="exportUrl"></a>
     </div>
 </div>
-<script type="text/javascript">
-    layui.use(['table', 'form'], function () {
-        var form = layui.form;
-        form.on('checkbox(allChoose)', function (data) {
-            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
-            child.each(function (index, item) {
-                item.checked = data.elem.checked;
-            });
-            form.render('checkbox');
-        });
+<div id="tplConfig" class="layui-hide">
+    <form class="layui-form" th:action="@{/code/table/config}" method="post">
+        <table id="configTable" class="layui-table" lay-filter="configTable">
+            <thead>
+            <tr>
+                <th lay-data="{field:'name'}">文件名</th>
+                <th lay-data="{field:'enable'}">需要生成</th>
+            </tr>
+            </thead>
+            <tbody>
 
-        form.on('submit(generator)', function (data) {
-            var child = $("table tbody :checked");
-            if (child.length == 0) {
-                layer.alert('请勾选需要生成代码的表', {icon: 7});
-                return false;
-            }
-            var tabs = [];
-            child.each(function () {
-                var d = $(this).data("table");
-                if (!!d) {
-                    tabs.push($(this).data("table"));
-                }
-            });
-            console.log(tabs.join(","))
-            var url = $("#exportUrl").attr("href");
-            var $form = $('<form></form>');
-            $form.attr('action', url + "?rand=" + Math.random());
-            $form.attr('method', 'post');
-
-            var $input = $("<input>");
-            $input.attr("type", "hidden");
-            $input.attr("name", "tables");
-            $input.attr("value", tabs.join(","));
-            $form.append($input);
-
-            $form.appendTo('body').submit().remove();
-            return false;
-        });
-        form.render();
-    })
-</script>
+            <tr th:each="item : ${configList}">
+                <td th:text="${item.name}"></td>
+                <td>
+                    <input type="hidden" name="name" th:value="${item.name}">
+                    <input type="checkbox" name="enable" lay-skin="switch" lay-text="是|否" th:checked="${item.enable}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script type="text/javascript" th:src="@{/table.js}"></script>
 </body>
 </html>

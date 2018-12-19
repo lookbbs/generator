@@ -1,7 +1,6 @@
 package com.ydf.generator.service.impl;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ydf.generator.dto.BuildFileConfig;
 import com.ydf.generator.dto.ColumnConfig;
 import com.ydf.generator.dto.ColumnDto;
 import com.ydf.generator.dto.TableDto;
@@ -9,9 +8,11 @@ import com.ydf.generator.entity.Column;
 import com.ydf.generator.entity.Table;
 import com.ydf.generator.exception.GeneratorException;
 import com.ydf.generator.mapper.TableMapper;
+import com.ydf.generator.service.Cache;
 import com.ydf.generator.service.ColumnService;
-import com.ydf.generator.service.TableCache;
 import com.ydf.generator.service.TableService;
+import com.ydf.generator.template.TemplateHandler;
+import com.ydf.generator.util.ObjectMapperUtil;
 import com.ydf.generator.util.StringTools;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -21,7 +22,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author yuandongfei
@@ -32,11 +35,15 @@ public class TableServiceImpl implements TableService {
 
     @Autowired
     private TableMapper tableMapper;
+
     @Autowired
     private ColumnService columnService;
 
     @Autowired
-    private TableCache tableCache;
+    private Cache<TableDto> tableCache;
+
+    @Autowired
+    private List<TemplateHandler> handlers;
 
     @Override
     public List<TableDto> selectList(String[] tables) {
@@ -64,7 +71,7 @@ public class TableServiceImpl implements TableService {
                 d.setEntityName(StringTools.upperCamelCase(t.getTableName(), true));
             }
             result.add(d);
-            tableCache.put(d);
+            tableCache.put(d.getTableName(), d);
         }
         return result;
     }
@@ -86,9 +93,7 @@ public class TableServiceImpl implements TableService {
                 throw new GeneratorException(table + "表不存在");
             }
         }
-        ObjectMapper objectMapper = new ObjectMapper();
-        JavaType javaType = objectMapper.getTypeFactory().constructParametricType(ArrayList.class, ColumnConfig.class);
-        List<ColumnConfig> configList = objectMapper.readValue(data, javaType);
+        List<ColumnConfig> configList = ObjectMapperUtil.convertToList(data, ColumnConfig.class);
         List<ColumnDto> columns = tab.getColumns();
         for (ColumnDto s : columns) {
             for (ColumnConfig c : configList) {
@@ -106,7 +111,38 @@ public class TableServiceImpl implements TableService {
             }
         }
         tab.setColumns(columns);
-        tableCache.put(tab);
+        tableCache.put(tab.getTableName(), tab);
         return "success";
+    }
+
+    @Override
+    public List<BuildFileConfig> getConfigList() {
+        if (CollectionUtils.isEmpty(handlers)) {
+            return Collections.EMPTY_LIST;
+        }
+        List<BuildFileConfig> lst = new ArrayList<>(handlers.size());
+        for (TemplateHandler h : handlers) {
+            BuildFileConfig c = new BuildFileConfig();
+            c.setEnable(h.isEnable());
+            c.setName(h.getName());
+            lst.add(c);
+        }
+        return lst;
+    }
+
+    @Override
+    public void saveConfig(String data) {
+        if (StringUtils.isBlank(data)) {
+            throw new GeneratorException("列信息配置不可空");
+        }
+        List<BuildFileConfig> lst = ObjectMapperUtil.convertToList(data, BuildFileConfig.class);
+        for (BuildFileConfig c : lst) {
+            for (TemplateHandler h : handlers) {
+                if (Objects.equals(c.getName(), h.getName())) {
+                    h.setEnable(c.getEnable());
+                    break;
+                }
+            }
+        }
     }
 }

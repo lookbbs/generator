@@ -4,7 +4,7 @@ import com.ydf.generator.config.GeneratorProperties;
 import com.ydf.generator.dto.TableDto;
 import com.ydf.generator.exception.GeneratorException;
 import com.ydf.generator.service.ExportService;
-import com.ydf.generator.service.TableCache;
+import com.ydf.generator.service.Cache;
 import com.ydf.generator.template.TemplateProcessorManager;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +32,7 @@ import java.util.zip.ZipOutputStream;
 public class ExportServiceImpl implements ExportService {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
-    private TableCache tableCache;
+    private Cache tableCache;
 
     @Autowired
     private TemplateProcessorManager templateProcessorManager;

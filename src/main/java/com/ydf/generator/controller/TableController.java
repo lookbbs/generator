@@ -37,6 +37,7 @@ public class TableController {
         List<TableDto> lst = tableService.selectList(null);
         if (!CollectionUtils.isEmpty(lst)) {
             model.addAttribute("list", lst);
+            model.addAttribute("configList", tableService.getConfigList());
             model.addAttribute("schema", lst.get(0).getTableSchema());
         }
         return "code/table";
@@ -73,5 +74,11 @@ public class TableController {
             }
             export.delete();
         }
+    }
+
+    @PostMapping("/config")
+    public ResponseEntity<String> config(String data) {
+        tableService.saveConfig(data);
+        return ResponseEntity.ok("success");
     }
 }

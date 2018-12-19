@@ -19,14 +19,16 @@ import java.util.concurrent.Future;
 public class TemplateProcessorManager {
 
     @Autowired
-    private List<AbstractTemplateProcessor> processorList;
+    private List<AbstractTemplateHandler> processorList;
 
     public List<Future<File>> exec(TableDto data, boolean isWeb) {
         if (!CollectionUtils.isEmpty(processorList)) {
             List<Future<File>> list = new ArrayList<>(processorList.size());
-            for (AbstractTemplateProcessor processor : processorList) {
-                Future<File> submit = ThreadManager.getInstance().submit(() -> processor.process(data, isWeb));
-                list.add(submit);
+            for (AbstractTemplateHandler processor : processorList) {
+                if(processor.isEnable()) {
+                    Future<File> submit = ThreadManager.getInstance().submit(() -> processor.process(data, isWeb));
+                    list.add(submit);
+                }
             }
             return list;
         }
