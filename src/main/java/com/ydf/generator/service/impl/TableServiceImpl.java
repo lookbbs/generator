@@ -98,12 +98,13 @@ public class TableServiceImpl implements TableService {
         for (ColumnDto s : columns) {
             for (ColumnConfig c : configList) {
                 if (StringUtils.equalsIgnoreCase(s.getColumnName(), c.getColumnName())) {
-                    s.setSearch(StringUtils.equalsIgnoreCase("on", c.getSearch()));
-                    s.setShow(StringUtils.equalsIgnoreCase("on", c.getShow()));
-                    if (StringUtils.equalsIgnoreCase("on", c.getNullable())) {
-                        s.setIsNullable("YES");
+                    s.setSearch(c.getSearch());
+                    s.setShow(c.getShow());
+                    s.setCanEdit(c.getCanEdit());
+                    if (c.getNullable()) {
+                        s.setNullable("YES");
                     } else {
-                        s.setIsNullable("NO");
+                        s.setNullable("NO");
                     }
                     s.setFieldText(c.getFieldText());
                     break;

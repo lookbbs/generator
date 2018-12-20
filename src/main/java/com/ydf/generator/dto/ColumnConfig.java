@@ -7,10 +7,11 @@ package com.ydf.generator.dto;
 public class ColumnConfig {
 
     private String columnName;
-    private String show;
-    private String search;
+    private Boolean show;
+    private Boolean search;
     private String fieldText;
-    private String nullable;
+    private Boolean nullable;
+    private Boolean canEdit;
 
     public String getColumnName() {
         return columnName;
@@ -20,19 +21,19 @@ public class ColumnConfig {
         this.columnName = columnName;
     }
 
-    public String getShow() {
+    public Boolean getShow() {
         return show;
     }
 
-    public void setShow(String show) {
+    public void setShow(Boolean show) {
         this.show = show;
     }
 
-    public String getSearch() {
+    public Boolean getSearch() {
         return search;
     }
 
-    public void setSearch(String search) {
+    public void setSearch(Boolean search) {
         this.search = search;
     }
 
@@ -44,11 +45,19 @@ public class ColumnConfig {
         this.fieldText = fieldText;
     }
 
-    public String getNullable() {
+    public Boolean getNullable() {
         return nullable;
     }
 
-    public void setNullable(String nullable) {
+    public void setNullable(Boolean nullable) {
         this.nullable = nullable;
+    }
+
+    public Boolean getCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(Boolean canEdit) {
+        this.canEdit = canEdit;
     }
 }

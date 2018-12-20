@@ -9,33 +9,38 @@ layui.use(['table', 'form', 'layer'], function () {
     });
 
     form.on('submit(config)', function () {
-        var $tpl = $('#tplConfig').html()
-        layui.layer.open({
-            title: '配置需要生成的文件',
-            area: ['1024px', '768px'],
-            content: $tpl,
-            success: function (layero, index) {
-                layui.form.render();
-            },
-            yes: function (index, layero) {
-                var data = [];
-                $(layero).find("table tr").each(function () {
-                    var t = {};
-                    $(this).find("input").each(function () {
-                        if (this.type == 'checkbox') {
-                            t[this.name] = this.checked;
-                        } else {
-                            t[this.name] = this.value;
-                        }
-                    });
-                    !$.isEmptyObject(t) && data.push(t);
+        var $tpl = $('#tplConfig').html();
+        var url = $("#getConfigUrl").attr("href");
+        $.getJSON(url, {}, function (result) {
+            layui.laytpl($tpl).render(result, function (html) {
+                layui.layer.open({
+                    title: '配置需要生成的文件',
+                    area: ['1024px', '768px'],
+                    content: html,
+                    success: function (layero, index) {
+                        layui.form.render();
+                    },
+                    yes: function (index, layero) {
+                        var data = [];
+                        $(layero).find("table tr").each(function () {
+                            var t = {};
+                            $(this).find("input").each(function () {
+                                if (this.type == 'checkbox') {
+                                    t[this.name] = this.checked;
+                                } else {
+                                    t[this.name] = this.value;
+                                }
+                            });
+                            !$.isEmptyObject(t) && data.push(t);
+                        });
+                        var url = $(layero).find("form").attr("action");
+                        $.post(url, {data: JSON.stringify(data)}, function (result) {
+                            console.log(result);
+                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        })
+                    }
                 });
-                var url = $(layero).find("form").attr("action");
-                $.post(url, {data: JSON.stringify(data)}, function (result) {
-                    console.log(result);
-                    layer.close(index); //如果设定了yes回调，需进行手工关闭
-                })
-            }
+            });
         });
         return false;
     });

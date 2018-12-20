@@ -9,7 +9,7 @@ public class Column {
     private String columnName;
     private String columnKey;
     private String jdbcType;
-    private String isNullable;
+    private String nullable;
     private String columnComment;
 
     public String getColumnName() {
@@ -36,12 +36,12 @@ public class Column {
         this.jdbcType = jdbcType;
     }
 
-    public String getIsNullable() {
-        return isNullable;
+    public String getNullable() {
+        return nullable;
     }
 
-    public void setIsNullable(String isNullable) {
-        this.isNullable = isNullable;
+    public void setNullable(String nullable) {
+        this.nullable = nullable;
     }
 
     public String getColumnComment() {

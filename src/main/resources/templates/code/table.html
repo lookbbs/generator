@@ -45,9 +45,10 @@
             </tbody>
         </table>
         <a th:href="@{/code/table}" class="layui-hide" id="exportUrl"></a>
+        <a th:href="@{/code/table/config}" class="layui-hide" id="getConfigUrl"></a>
     </div>
 </div>
-<div id="tplConfig" class="layui-hide">
+<script id="tplConfig" type="text/html">
     <form class="layui-form" th:action="@{/code/table/config}" method="post">
         <table id="configTable" class="layui-table" lay-filter="configTable">
             <thead>
@@ -57,18 +58,23 @@
             </tr>
             </thead>
             <tbody>
-
-            <tr th:each="item : ${configList}">
-                <td th:text="${item.name}"></td>
+            {{#  layui.each(d, function(index, item){ }}
+            <tr>
+                <td>{{item.name}}</td>
                 <td>
-                    <input type="hidden" name="name" th:value="${item.name}">
-                    <input type="checkbox" name="enable" lay-skin="switch" lay-text="是|否" th:checked="${item.enable}">
+                    <input type="hidden" name="name" value="{{item.name}}">
+                    {{#  if(item.enable){ }}
+                    <input type="checkbox" name="enable" lay-skin="switch" lay-text="是|否" checked>
+                    {{#  } else { }}
+                    <input type="checkbox" name="enable" lay-skin="switch" lay-text="是|否">
+                    {{#  } }}
                 </td>
             </tr>
+            {{#  }); }}
             </tbody>
         </table>
     </form>
-</div>
+</script>
 <script type="text/javascript" th:src="@{/table.js}"></script>
 </body>
 </html>

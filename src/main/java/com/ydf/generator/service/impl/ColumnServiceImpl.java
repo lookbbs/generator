@@ -42,7 +42,6 @@ public class ColumnServiceImpl implements ColumnService {
             BeanUtils.copyProperties(c, d);
             d.setFieldName(StringTools.upperCamelCase(c.getColumnName()));
             d.setJavaType(JdbcTypeTool.getJavaType(c.getJdbcType()));
-            d.setShow(true);
             result.add(d);
         }
         return result;

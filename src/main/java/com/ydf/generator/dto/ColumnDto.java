@@ -23,11 +23,15 @@ public class ColumnDto extends Column {
     /**
      * 是否是列表搜索字段
      */
-    private boolean search;
+    private Boolean search;
     /**
      * 该列是否在列表页显示
      */
-    private boolean show;
+    private Boolean show = true;
+    /**
+     * 是否编辑该列
+     */
+    private Boolean canEdit = true;
 
     public String getFieldName() {
         return fieldName;
@@ -53,19 +57,27 @@ public class ColumnDto extends Column {
         this.javaType = javaType;
     }
 
-    public boolean getSearch() {
+    public Boolean getSearch() {
         return search;
     }
 
-    public void setSearch(boolean search) {
+    public void setSearch(Boolean search) {
         this.search = search;
     }
 
-    public boolean getShow() {
+    public Boolean getShow() {
         return show;
     }
 
-    public void setShow(boolean show) {
+    public void setShow(Boolean show) {
         this.show = show;
+    }
+
+    public Boolean getCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(Boolean canEdit) {
+        this.canEdit = canEdit;
     }
 }

@@ -10,7 +10,7 @@ ${"<#include \"/common/head.ftl\" />"}
         <div class="layui-form layui-card-body">
                  <#if columns??>
                      <#list columns as col>
-                         <#if 'PRI' != col.columnKey>
+                         <#if 'PRI' != col.columnKey && col.canEdit>
                             <#if col.fieldName == "remark">
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">${col.fieldText!}：</label>
@@ -23,9 +23,9 @@ ${"<#include \"/common/head.ftl\" />"}
                 <label class="layui-form-label">${col.fieldText!}：</label>
                 <div class="layui-input-block">
                                 <#if col.javaType == "Date">
-                    <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}' title="${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if>>
+                    <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}' title="${col.fieldText!}" <#if col.nullable =='NO'>lay-verify="required"</#if>>
                                 <#else>
-                    <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" title="${col.fieldText!}" <#if col.isNullable =='NO'>lay-verify="required"</#if>>
+                    <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" title="${col.fieldText!}" <#if col.nullable =='NO'>lay-verify="required"</#if>>
                                 </#if>
                 </div>
             </div>

@@ -7,7 +7,7 @@
 			`column_name` as columnName,
 			`data_type` as jdbcType,
 			`column_key` as columnKey,
-			`is_nullable` as isNullable,
+			`is_nullable` as nullable,
 			`column_comment` as columnComment
 		FROM
 			information_schema.COLUMNS

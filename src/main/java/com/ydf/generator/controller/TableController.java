@@ -1,5 +1,6 @@
 package com.ydf.generator.controller;
 
+import com.ydf.generator.dto.BuildFileConfig;
 import com.ydf.generator.dto.ColumnDto;
 import com.ydf.generator.dto.TableDto;
 import com.ydf.generator.service.ColumnService;
@@ -37,7 +38,6 @@ public class TableController {
         List<TableDto> lst = tableService.selectList(null);
         if (!CollectionUtils.isEmpty(lst)) {
             model.addAttribute("list", lst);
-            model.addAttribute("configList", tableService.getConfigList());
             model.addAttribute("schema", lst.get(0).getTableSchema());
         }
         return "code/table";
@@ -76,6 +76,10 @@ public class TableController {
         }
     }
 
+    @GetMapping("/config")
+    public ResponseEntity<List<BuildFileConfig>> configList(){
+        return ResponseEntity.ok(tableService.getConfigList());
+    }
     @PostMapping("/config")
     public ResponseEntity<String> config(String data) {
         tableService.saveConfig(data);
