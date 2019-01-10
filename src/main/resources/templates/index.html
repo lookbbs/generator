@@ -1,10 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>代码自动生成工具</title>
+<head th:include="include/head::page-head(title=${'代码自动生成工具'})">
 </head>
-<body onload="window.location.href='/code/table'">
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" th:include="include/layui-head::layui-header"></div>
+
+    <div class="layui-side layui-bg-black" th:include="include/layui-side::layui-side(nav='main')"></div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <div class="layui-tab layui-tab-brief" lay-filter="tabConfig" lay-allowclose="true">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" lay-id="11">连接设置</li>
+                    <li lay-id="22">生成配置</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show" th:include="include/connection_config::config">
+                        连接设置
+                    </div>
+                    <div class="layui-tab-item" th:include="include/build_config::config">
+                        生成配置
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-footer" th:include="include/layui-footer::layui-footer"></div>
+</div>
+
+<script type="text/javascript" th:src="@{/static/index.js}"></script>
 </body>
 </html>

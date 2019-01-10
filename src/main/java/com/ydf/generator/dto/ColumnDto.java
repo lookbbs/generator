@@ -1,11 +1,15 @@
 package com.ydf.generator.dto;
 
 import com.ydf.generator.entity.Column;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author yuandongfei
  * @date 2018/12/4
  */
+@Getter
+@Setter
 public class ColumnDto extends Column {
     /**
      * 该列对应java对象的属性名
@@ -23,61 +27,13 @@ public class ColumnDto extends Column {
     /**
      * 是否是列表搜索字段
      */
-    private Boolean search;
+    private Boolean search = Boolean.FALSE;
     /**
      * 该列是否在列表页显示
      */
-    private Boolean show = true;
+    private Boolean show = Boolean.TRUE;
     /**
      * 是否编辑该列
      */
-    private Boolean canEdit = true;
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
-    }
-
-    public String getFieldText() {
-        return fieldText;
-    }
-
-    public void setFieldText(String fieldText) {
-        this.fieldText = fieldText;
-    }
-
-    public String getJavaType() {
-        return javaType;
-    }
-
-    public void setJavaType(String javaType) {
-        this.javaType = javaType;
-    }
-
-    public Boolean getSearch() {
-        return search;
-    }
-
-    public void setSearch(Boolean search) {
-        this.search = search;
-    }
-
-    public Boolean getShow() {
-        return show;
-    }
-
-    public void setShow(Boolean show) {
-        this.show = show;
-    }
-
-    public Boolean getCanEdit() {
-        return canEdit;
-    }
-
-    public void setCanEdit(Boolean canEdit) {
-        this.canEdit = canEdit;
-    }
+    private Boolean canEdit = Boolean.TRUE;
 }

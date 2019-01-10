@@ -3,7 +3,6 @@ package com.ydf.generator.service;
 import com.ydf.generator.dto.BuildFileConfig;
 import com.ydf.generator.dto.TableDto;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -38,7 +37,7 @@ public interface TableService {
 
     /**
      * 保存配置
-     * @param data
+     * @param config
      */
-    void saveConfig(String data);
+    void saveConfig(BuildFileConfig config);
 }

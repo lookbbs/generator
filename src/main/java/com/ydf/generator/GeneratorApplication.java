@@ -1,11 +1,12 @@
 package com.ydf.generator;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author yuandongfei
@@ -13,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping
-@MapperScan("com.ydf.generator.mapper")
+@EnableSwagger2
 @SpringBootApplication
 public class GeneratorApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GeneratorApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GeneratorApplication.class, args);
+    }
 
-	@GetMapping
-	public String index(){
-		return "redirect:/code/table";
-	}
+    @GetMapping
+    public String index() {
+        return "/index";
+    }
 }

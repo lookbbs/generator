@@ -33,7 +33,7 @@ public class ${entityName}ServiceImpl extends BaseServiceImpl<${entityName}, ${p
         if (null == record.getId()) {
             return ${variableName}Mapper.insert(record);
         } else {
-            return ${variableName}Mapper.updateByPrimaryKey(record);
+            return ${variableName}Mapper.updateByPrimaryKeySelective(record);
         }
     }
 

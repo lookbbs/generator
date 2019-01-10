@@ -1,17 +1,15 @@
 package com.ydf.generator.service.impl;
 
-import com.ydf.generator.dto.BuildFileConfig;
-import com.ydf.generator.dto.ColumnConfig;
-import com.ydf.generator.dto.ColumnDto;
-import com.ydf.generator.dto.TableDto;
+import com.ydf.generator.cache.BuildFileConfigMemberCache;
+import com.ydf.generator.cache.DatabaseMemberCache;
+import com.ydf.generator.datasource.DatabaseHolder;
+import com.ydf.generator.dto.*;
 import com.ydf.generator.entity.Column;
 import com.ydf.generator.entity.Table;
 import com.ydf.generator.exception.GeneratorException;
-import com.ydf.generator.mapper.TableMapper;
-import com.ydf.generator.service.Cache;
+import com.ydf.generator.cache.Cache;
 import com.ydf.generator.service.ColumnService;
 import com.ydf.generator.service.TableService;
-import com.ydf.generator.template.TemplateHandler;
 import com.ydf.generator.util.ObjectMapperUtil;
 import com.ydf.generator.util.StringTools;
 import org.apache.commons.lang3.StringUtils;
@@ -21,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author yuandongfei
@@ -34,16 +29,19 @@ import java.util.Objects;
 public class TableServiceImpl implements TableService {
 
     @Autowired
-    private TableMapper tableMapper;
-
-    @Autowired
     private ColumnService columnService;
 
     @Autowired
     private Cache<TableDto> tableCache;
 
     @Autowired
-    private List<TemplateHandler> handlers;
+    private BuildFileConfigMemberCache buildFileConfigMemberCache;
+
+    @Autowired
+    private DatabaseHolder databaseHolder;
+
+    @Autowired
+    private DatabaseMemberCache databaseCache;
 
     @Override
     public List<TableDto> selectList(String[] tables) {
@@ -51,7 +49,8 @@ public class TableServiceImpl implements TableService {
         if (!CollectionUtils.isEmpty(result)) {
             return result;
         }
-        List<Table> lst = tableMapper.selectList(tables);
+        DatabaseConfig db = databaseCache.get();
+        List<Table> lst = databaseHolder.findDatabaseDao().selectTableList(db, tables);
         for (Table t : lst) {
             TableDto d = tableCache.get(t.getTableName());
             if (null == d) {
@@ -118,32 +117,13 @@ public class TableServiceImpl implements TableService {
 
     @Override
     public List<BuildFileConfig> getConfigList() {
-        if (CollectionUtils.isEmpty(handlers)) {
-            return Collections.EMPTY_LIST;
-        }
-        List<BuildFileConfig> lst = new ArrayList<>(handlers.size());
-        for (TemplateHandler h : handlers) {
-            BuildFileConfig c = new BuildFileConfig();
-            c.setEnable(h.isEnable());
-            c.setName(h.getName());
-            lst.add(c);
-        }
-        return lst;
+        return buildFileConfigMemberCache.selectList(null);
     }
 
     @Override
-    public void saveConfig(String data) {
-        if (StringUtils.isBlank(data)) {
-            throw new GeneratorException("列信息配置不可空");
-        }
-        List<BuildFileConfig> lst = ObjectMapperUtil.convertToList(data, BuildFileConfig.class);
-        for (BuildFileConfig c : lst) {
-            for (TemplateHandler h : handlers) {
-                if (Objects.equals(c.getName(), h.getName())) {
-                    h.setEnable(c.getEnable());
-                    break;
-                }
-            }
-        }
+    public void saveConfig(BuildFileConfig config) {
+        BuildFileConfig c = buildFileConfigMemberCache.get(config.getName());
+        c.setEnable(config.getEnable());
+        buildFileConfigMemberCache.put(config.getName(), c);
     }
 }

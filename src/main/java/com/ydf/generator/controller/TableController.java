@@ -34,23 +34,15 @@ public class TableController {
     private ExportService exportService;
 
     @GetMapping
-    public String index(Model model) {
-        List<TableDto> lst = tableService.selectList(null);
-        if (!CollectionUtils.isEmpty(lst)) {
-            model.addAttribute("list", lst);
-            model.addAttribute("schema", lst.get(0).getTableSchema());
-        }
+    public String index() {
         return "code/table";
     }
 
-    @GetMapping("/{table}/column")
-    public String showColumn(@PathVariable("table") String table, Model model) {
-        List<ColumnDto> lst = columnService.selectList(table);
-        if (!CollectionUtils.isEmpty(lst)) {
-            model.addAttribute("list", lst);
-            model.addAttribute("table", table);
-        }
-        return "code/column";
+    @GetMapping("/list")
+    @ResponseBody
+    public ResponseEntity<List<TableDto>> list() {
+        List<TableDto> lst = tableService.selectList(null);
+        return ResponseEntity.ok(lst);
     }
 
     @PostMapping("/{table}/column")
@@ -77,12 +69,13 @@ public class TableController {
     }
 
     @GetMapping("/config")
-    public ResponseEntity<List<BuildFileConfig>> configList(){
+    public ResponseEntity<List<BuildFileConfig>> configList() {
         return ResponseEntity.ok(tableService.getConfigList());
     }
+
     @PostMapping("/config")
-    public ResponseEntity<String> config(String data) {
-        tableService.saveConfig(data);
+    public ResponseEntity<String> config(BuildFileConfig config) {
+        tableService.saveConfig(config);
         return ResponseEntity.ok("success");
     }
 }

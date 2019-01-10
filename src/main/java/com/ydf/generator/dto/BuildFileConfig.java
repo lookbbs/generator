@@ -1,26 +1,16 @@
 package com.ydf.generator.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author yuandongfei
  * @date 2018/12/19
  */
+@Getter
+@Setter
 public class BuildFileConfig {
     private String name;
-    private Boolean enable;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Boolean getEnable() {
-        return enable;
-    }
-
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
-    }
+    private Boolean enable = Boolean.TRUE;
+    private String comment;
 }

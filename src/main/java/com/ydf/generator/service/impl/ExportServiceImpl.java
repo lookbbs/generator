@@ -1,10 +1,10 @@
 package com.ydf.generator.service.impl;
 
-import com.ydf.generator.config.GeneratorProperties;
+import com.ydf.generator.cache.TableMemberCache;
+import com.ydf.generator.properties.GeneratorProperties;
 import com.ydf.generator.dto.TableDto;
 import com.ydf.generator.exception.GeneratorException;
 import com.ydf.generator.service.ExportService;
-import com.ydf.generator.service.Cache;
 import com.ydf.generator.template.TemplateProcessorManager;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,8 +31,9 @@ import java.util.zip.ZipOutputStream;
 @Service
 public class ExportServiceImpl implements ExportService {
     private Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
-    private Cache tableCache;
+    private TableMemberCache tableMemberCache;
 
     @Autowired
     private TemplateProcessorManager templateProcessorManager;
@@ -48,7 +49,7 @@ public class ExportServiceImpl implements ExportService {
         logger.info("### 代码生成工具，tables：{}。开始执行......",tables);
         String[] tabArray = tables.split(",");
         List<Future<File>> results = new CopyOnWriteArrayList<>();
-        List<TableDto> lst = tableCache.selectList(tabArray);
+        List<TableDto> lst = tableMemberCache.selectList(tabArray);
         for (TableDto d : lst) {
             List<Future<File>> exec = templateProcessorManager.exec(d, isWeb);
             if (!CollectionUtils.isEmpty(exec)) {

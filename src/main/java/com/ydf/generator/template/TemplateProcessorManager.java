@@ -1,6 +1,8 @@
 package com.ydf.generator.template;
 
-import com.ydf.generator.config.ThreadManager;
+import com.ydf.generator.dto.BuildFileConfig;
+import com.ydf.generator.cache.BuildFileConfigMemberCache;
+import com.ydf.generator.thread.ThreadManager;
 import com.ydf.generator.dto.TableDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,13 +21,17 @@ import java.util.concurrent.Future;
 public class TemplateProcessorManager {
 
     @Autowired
-    private List<AbstractTemplateHandler> processorList;
+    private List<AbstractTemplate> processorList;
+
+    @Autowired
+    private BuildFileConfigMemberCache buildFileConfigMemberCache;
 
     public List<Future<File>> exec(TableDto data, boolean isWeb) {
         if (!CollectionUtils.isEmpty(processorList)) {
             List<Future<File>> list = new ArrayList<>(processorList.size());
-            for (AbstractTemplateHandler processor : processorList) {
-                if(processor.isEnable()) {
+            for (AbstractTemplate processor : processorList) {
+                BuildFileConfig buildFileConfig = buildFileConfigMemberCache.get(processor.getName());
+                if (null != buildFileConfig && buildFileConfig.getEnable()) {
                     Future<File> submit = ThreadManager.getInstance().submit(() -> processor.process(data, isWeb));
                     list.add(submit);
                 }

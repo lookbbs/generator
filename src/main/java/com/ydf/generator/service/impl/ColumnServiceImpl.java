@@ -1,11 +1,13 @@
 package com.ydf.generator.service.impl;
 
+import com.ydf.generator.cache.DatabaseMemberCache;
+import com.ydf.generator.datasource.DatabaseHolder;
 import com.ydf.generator.dto.ColumnDto;
+import com.ydf.generator.dto.DatabaseConfig;
 import com.ydf.generator.dto.TableDto;
 import com.ydf.generator.entity.Column;
-import com.ydf.generator.mapper.ColumnMapper;
+import com.ydf.generator.cache.Cache;
 import com.ydf.generator.service.ColumnService;
-import com.ydf.generator.service.Cache;
 import com.ydf.generator.util.JdbcTypeTool;
 import com.ydf.generator.util.StringTools;
 import org.springframework.beans.BeanUtils;
@@ -24,10 +26,11 @@ import java.util.List;
 public class ColumnServiceImpl implements ColumnService {
 
     @Autowired
-    private ColumnMapper columnMapper;
-
-    @Autowired
     private Cache<TableDto> tableCache;
+    @Autowired
+    private DatabaseHolder databaseHolder;
+    @Autowired
+    private DatabaseMemberCache databaseCache;
 
     @Override
     public List<ColumnDto> selectList(String table) {
@@ -35,7 +38,9 @@ public class ColumnServiceImpl implements ColumnService {
         if (null != tableDto && !CollectionUtils.isEmpty(tableDto.getColumns())) {
             return tableDto.getColumns();
         }
-        List<Column> lst = columnMapper.selectList(table);
+        DatabaseConfig db = databaseCache.get();
+        List<Column> lst = databaseHolder.findDatabaseDao().selectColumnList(db, table);
+
         List<ColumnDto> result = new ArrayList<>(lst.size());
         for (Column c : lst) {
             ColumnDto d = new ColumnDto();

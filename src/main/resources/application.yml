@@ -1,13 +1,4 @@
-
 spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/db?useUnicode=true&characterEncoding=utf8
-      username: root
-      password: root
-
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
@@ -25,11 +16,6 @@ spring:
 
   profiles:
     include: template,target
-
-mybatis:
-  mapper-locations: classpath:resources/mapper/**/*.xml
-  type-aliases-package: com.ydf.generator.entity
-
 
 
 

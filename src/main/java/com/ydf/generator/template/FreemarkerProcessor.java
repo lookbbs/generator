@@ -1,8 +1,10 @@
 package com.ydf.generator.template;
 
+import com.ydf.generator.util.ObjectMapperUtil;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -14,6 +16,7 @@ import java.io.StringWriter;
  * @author yuandongfei
  * @date 2018/12/4
  */
+@Slf4j
 @Component
 public class FreemarkerProcessor {
 
@@ -41,6 +44,7 @@ public class FreemarkerProcessor {
      * @return 生成的文件对象
      */
     public File writeToFile(String baseDir, String targetDir, String outFile, Object data, Template template) {
+        log.info(">>> 生成文件的data：{}", ObjectMapperUtil.writeValueAsString(data));
         File targetDirPath = mkdirs(String.format("%s%s",baseDir , targetDir));
         File target = new File(targetDirPath, outFile);
         try (FileWriter out = new FileWriter(target)) {
