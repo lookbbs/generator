@@ -1,6 +1,6 @@
 package ${basePackage}.dao;
 
-import ${basePackage}.entity.${entityName};
+import ${packageConfig.model}.${targetEntityClassName};
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  * @date ${.now?string("yyyy-MM-dd")}
  */
 @Mapper
-public interface ${entityName}Mapper extends BaseMapper<${entityName},${primaryKey.javaType}> {
+public interface ${targetEntityClassName}Mapper extends BaseMapper<${targetEntityClassName},${data.primaryKeys[0].javaType}> {
 
-    List<${entityName}> selectList(${entityName} record);
+    List<${targetEntityClassName}> selectList(${targetEntityClassName} record);
 }

@@ -1,5 +1,6 @@
 package com.ydf.generator.controller;
 
+import com.ydf.generator.datasource.DatabaseDialect;
 import com.ydf.generator.dto.DatabaseConfig;
 import com.ydf.generator.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,17 @@ import java.util.List;
  * @date 2019/1/8
  */
 @Controller
-@RequestMapping("/code/db")
+@RequestMapping("/code/config/db")
 public class DbController {
 
     @Autowired
     private DatabaseService databaseService;
+
+    @GetMapping("/dialects")
+    @ResponseBody
+    public ResponseEntity<DatabaseDialect[]> getAllDialect() {
+        return ResponseEntity.ok(DatabaseDialect.values());
+    }
 
     @GetMapping("/{dialect}")
     @ResponseBody
@@ -37,7 +44,7 @@ public class DbController {
 
     @GetMapping
     @ResponseBody
-    public ResponseEntity<List<String>> getDatabases(DatabaseConfig db){
+    public ResponseEntity<List<String>> getDatabases(DatabaseConfig db) {
         List<String> tables = databaseService.getDatabases(db);
         return ResponseEntity.ok(tables);
     }

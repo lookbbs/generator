@@ -44,7 +44,8 @@ public interface DatabaseDao {
      *
      * @param db
      * @param table 表名
+     * @param onlyPk 是否只获取主键，true：只返回主键，false：全部（包含主键）
      * @return
      */
-    List<Column> selectColumnList(DatabaseConfig db, String table);
+    List<Column> selectColumnList(DatabaseConfig db, String table,boolean onlyPk);
 }

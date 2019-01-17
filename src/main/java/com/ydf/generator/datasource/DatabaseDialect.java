@@ -5,37 +5,55 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 数据库方言（类型）
+ *
  * @author yuandongfei
  * @date 2019/1/8
  */
 @Getter
 public enum DatabaseDialect {
 
-    MySql("com.mysql.cj.jdbc.Driver","jdbc:mysql://${host}:${port}/information_schema?useUnicode=true&characterEncoding=${encoding}");
+    MySql("com.mysql.jdbc.Driver", "jdbc:mysql://${host}:${port}/information_schema?useUnicode=true&characterEncoding=${encoding}", "`", "`"),
+    MySql8("com.mysql.cj.jdbc.Driver", "jdbc:mysql://${host}:${port}/information_schema?useUnicode=true&characterEncoding=${encoding}");
 
     /**
      * 连接数据库的驱动类名
      */
-    private String driverClassName;
+    private String driverClass;
     /**
      * 连接数据库的字符串
      */
     private String url;
+    /**
+     * 数据库的用于标记数据库对象名的开始符号，比如ORACLE就是双引号，MYSQL默认是`反引号
+     */
+    private String beginningDelimiter;
+    /**
+     * 数据库的用于标记数据库对象名的结束符号，比如ORACLE就是双引号，MYSQL默认是`反引号
+     */
+    private String endingDelimiter;
 
-    DatabaseDialect(String driverClassName, String url) {
-        this.driverClassName = driverClassName;
+    DatabaseDialect(String driverClass, String url) {
+        this.driverClass = driverClass;
         this.url = url;
+    }
+
+    DatabaseDialect(String driverClass, String url, String beginningDelimiter, String endingDelimiter) {
+        this.driverClass = driverClass;
+        this.url = url;
+        this.beginningDelimiter = beginningDelimiter;
+        this.endingDelimiter = endingDelimiter;
     }
 
     /**
      * 获取数据库方言配置
+     *
      * @param dialect
      * @return
      */
-    public static DatabaseDialect getDatabaseDialect(String dialect){
+    public static DatabaseDialect getDatabaseDialect(String dialect) {
         DatabaseDialect[] values = values();
-        for (DatabaseDialect val : values){
-            if(StringUtils.equalsIgnoreCase(val.name(),dialect)){
+        for (DatabaseDialect val : values) {
+            if (StringUtils.equalsIgnoreCase(val.name(), dialect)) {
                 return val;
             }
         }

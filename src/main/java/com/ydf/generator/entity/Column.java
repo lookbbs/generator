@@ -11,9 +11,28 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Column {
+    /**
+     * 列（字段）名称
+     */
     private String columnName;
+    /**
+     * 字段类型，主键，外键标识
+     */
     private String columnKey;
+    /**
+     * DB的字段数据类型
+     */
     private String jdbcType;
+    /**
+     * java的数据类型
+     */
+    private String javaType;
+    /**
+     * 字段是否可为空
+     */
     private String nullable;
+    /**
+     * 字段描述
+     */
     private String columnComment;
 }

@@ -20,14 +20,16 @@ public class DatabaseContextHolder {
     @Autowired
     private HttpSession session;
 
-    private static final String DIALECT_SESSION_KEY = "dialect";
-
     public void setDatabaseDialect(DatabaseDialect dialect) {
-        session.setAttribute(DIALECT_SESSION_KEY, dialect);
-        log.info("保存成功");
+        session.setAttribute(getKey(), dialect);
+        log.info("数据库方言（类型）修改（保存）成功");
     }
 
     public DatabaseDialect getDatabaseDialect() {
-        return (DatabaseDialect) session.getAttribute(DIALECT_SESSION_KEY);
+        return (DatabaseDialect) session.getAttribute(getKey());
+    }
+
+    private String getKey() {
+        return String.format("%s:dialect", session.getId()).toUpperCase();
     }
 }

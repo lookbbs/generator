@@ -1,26 +1,30 @@
 package com.ydf.generator.service.impl;
 
-import com.ydf.generator.cache.TableMemberCache;
-import com.ydf.generator.properties.GeneratorProperties;
-import com.ydf.generator.dto.TableDto;
+import com.ydf.generator.cache.DatabaseMemoryCache;
+import com.ydf.generator.cache.GenerateMemoryCache;
+import com.ydf.generator.cache.TableMemoryCache;
+import com.ydf.generator.dto.GenerateEntity;
+import com.ydf.generator.entity.Table;
 import com.ydf.generator.exception.GeneratorException;
+import com.ydf.generator.properties.GeneratorProperties;
 import com.ydf.generator.service.ExportService;
-import com.ydf.generator.template.TemplateProcessorManager;
+import com.ydf.generator.template.TemplateManager;
+import com.ydf.generator.template.mybatis.MbgGenerator;
+import com.ydf.generator.thread.DatabaseContextHolder;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Future;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -33,47 +37,51 @@ public class ExportServiceImpl implements ExportService {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TableMemberCache tableMemberCache;
+    private TableMemoryCache tableMemberCache;
 
     @Autowired
-    private TemplateProcessorManager templateProcessorManager;
+    private TemplateManager templateManager;
 
     @Autowired
     private GeneratorProperties generatorProperties;
 
+    @Autowired
+    private DatabaseContextHolder databaseContextHolder;
+
+    @Autowired
+    private DatabaseMemoryCache databaseMemberCache;
+
+    @Autowired
+    private GenerateMemoryCache generateMemoryCache;
+
     @Override
-    public File export(String tables, boolean isWeb) throws Exception {
+    public File export(String tables) throws Exception {
         if (StringUtils.isBlank(tables)) {
             throw new GeneratorException("需要生成代码的表名不可为空");
         }
-        logger.info("### 代码生成工具，tables：{}。开始执行......",tables);
+        logger.info("### 代码生成工具，tables：{}。开始执行......", tables);
         String[] tabArray = tables.split(",");
-        List<Future<File>> results = new CopyOnWriteArrayList<>();
-        List<TableDto> lst = tableMemberCache.selectList(tabArray);
-        for (TableDto d : lst) {
-            List<Future<File>> exec = templateProcessorManager.exec(d, isWeb);
-            if (!CollectionUtils.isEmpty(exec)) {
-                results.addAll(exec);
-            }
+
+        List<GenerateEntity> tableConfigs = generateMemoryCache.selectList(tabArray);
+
+        // 如果是web操作，则输出到临时目录，等待操作压缩
+        String sysTemp = System.getProperty("java.io.tmpdir");
+        generatorProperties.getTarget().setBaseDir(String.format("%s/code/", sysTemp));
+        if(Files.exists(Paths.get(generatorProperties.getTarget().getBaseDir()))){
+            Files.delete(Paths.get(generatorProperties.getTarget().getBaseDir()));
         }
-        isDone(results);
+        MbgGenerator.builder()
+                .databaseContextHolder(databaseContextHolder)
+                .databaseMemberCache(databaseMemberCache)
+                .tableConfigs(tableConfigs)
+                .targetProperties(generatorProperties.getTarget())
+                .build().generate();
+
+        // singleExec:单线程，multiExec: 多线程
+        templateManager.exec(tableConfigs);
+
         logger.info("### 代码生成工具，结束执行......");
         return buildZip();
-    }
-
-    private boolean isDone(List<Future<File>> list) throws Exception {
-        for (; ; ) {
-            if (!CollectionUtils.isEmpty(list)) {
-                for (Future<File> future : list) {
-                    if (future.isDone()) {
-                        list.remove(future);
-                    }
-                }
-            } else {
-                return true;
-            }
-            Thread.sleep(1000);
-        }
     }
 
     private File buildZip() throws Exception {
@@ -83,12 +91,13 @@ public class ExportServiceImpl implements ExportService {
         if (dir.exists()) {
             if (dir.isDirectory()) {
                 File targetZip = new File(dir.getParent(), "code.zip");
-                targetZip.deleteOnExit();
+                targetZip.delete();
                 try (FileOutputStream fos = new FileOutputStream(targetZip);
                      ZipOutputStream zos = new ZipOutputStream(fos)) {
                     // 遍历目录下的所有文件，并压缩
                     zipFile(dir, zos, null);
-                    dir.deleteOnExit();
+                    dir.delete();
+                    logger.info("### 删除目录：{}", dir.getCanonicalFile());
                 }
                 logger.info("### 打包ZIP文件工具，zip文件：{}。结束执行......", targetZip.getCanonicalFile());
                 return targetZip;

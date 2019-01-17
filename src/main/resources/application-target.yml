@@ -1,41 +1,51 @@
+# targetEntityClassName, targetEntityVariableName，basePackagePath等变量是 GenerateEntity.java类的字段
 ydf:
   target:
     baseDir: d:/code/
     basePackage: com.honglu.game.merchant
+    root:
+      java: src/main/java/
+      resources: src/main/resources/
+
     page:
       list:
-        directory: page/${variableName}
-        fileName: ${variableName}List.ftl
+        directory: ${ydf.target.root.resources}page/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}List.ftl
       add:
-        directory: page/${variableName}
-        fileName: ${variableName}Add.ftl
+        directory: ${ydf.target.root.resources}page/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}Add.ftl
       edit:
-        directory: page/${variableName}
-        fileName: ${variableName}Edit.ftl
+        directory: ${ydf.target.root.resources}page/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}Edit.ftl
       detail:
-        directory: page/${variableName}
-        fileName: ${variableName}Detail.ftl
+        directory: ${ydf.target.root.resources}page/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}Detail.ftl
     js:
       list:
-        directory: js/${variableName}
-        fileName: ${variableName}List.js
+        directory: ${ydf.target.root.resources}js/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}List.js
       edit:
-        directory: js/${variableName}
-        fileName: ${variableName}Edit.js
+        directory: ${ydf.target.root.resources}js/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}Edit.js
 
     server:
+      packages:
+        model: ${ydf.target.basePackage}.model
+        client: ${ydf.target.basePackage}.mapper
+        service: ${ydf.target.basePackage}.service
+        controller: ${ydf.target.basePackage}.web.controller
       controller:
-        directory: controller
-        fileName: ${entityName}Controller.java
+        directory: ${ydf.target.root.java}${basePackagePath}/web/controller/
+        fileName: ${targetEntityClassName}Controller.java
       service:
-        directory: service
-        fileName: ${entityName}Service.java
+        directory: ${ydf.target.root.java}${basePackagePath}/service/
+        fileName: ${targetEntityClassName}Service.java
       serviceImpl:
-        directory: service/impl
-        fileName: ${entityName}ServiceImpl.java
+        directory: ${ydf.target.root.java}${basePackagePath}/service/impl/
+        fileName: ${targetEntityClassName}ServiceImpl.java
       dao:
-        directory: dao
-        fileName: ${entityName}Mapper.java
+        directory: ${ydf.target.root.java}${basePackagePath}/mapper
+        fileName: ${targetEntityClassName}Mapper.java
       mapper:
-        directory: mapper/extend
-        fileName: ${entityName}Mapper.xml
+        directory: ${ydf.target.root.resources}/mapper/extend/
+        fileName: ${targetEntityClassName}Mapper.xml

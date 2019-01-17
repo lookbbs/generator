@@ -1,12 +1,12 @@
-package ${basePackage}.web.controller;
+package ${packageConfig.controller};
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.honglu.game.common.utils.ReType;
 import com.honglu.game.common.utils.result.ResultEntity;
 import com.honglu.game.merchant.entity.CurrentUser;
-import ${basePackage}.entity.${entityName};
-import ${basePackage}.service.${entityName}Service;
+import ${targetEntityPackage}.${targetEntityClassName};
+import ${packageConfig.service}.${targetEntityClassName}Service;
 import com.honglu.game.merchant.util.CommonUtil;
 import com.honglu.game.merchant.util.ResultEntityUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -23,16 +23,16 @@ import java.util.List;
 
 /**
  * auto-code工具 自动生成
- *
+ * ${data.tableComment}控制器
  * @author auto-code
  * @date ${.now?string("yyyy-MM-dd")}
  */
 @Controller
-@RequestMapping(value = "/${variableName}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class ${entityName}Controller {
+@RequestMapping(value = "/${targetEntityVariableName}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ${targetEntityClassName}Controller {
 
     @Autowired
-    private ${entityName}Service ${variableName}Service;
+    private ${targetEntityClassName}Service ${targetEntityVariableName}Service;
 
     /**
      * 列表页面
@@ -41,9 +41,9 @@ public class ${entityName}Controller {
      * @return
      */
     @GetMapping
-    @RequiresPermissions("${variableName}:page")
+    @RequiresPermissions("${targetEntityVariableName}:page")
     public String index(Model model) {
-        return "/${variableName}/${variableName}List";
+        return "/${targetEntityVariableName}/${targetEntityVariableName}List";
     }
 
     /**
@@ -56,12 +56,12 @@ public class ${entityName}Controller {
      */
     @GetMapping(value = "/list")
     @ResponseBody
-    @RequiresPermissions(value = "${variableName}:page")
-    public String list(${entityName} record,
+    @RequiresPermissions(value = "${targetEntityVariableName}:page")
+    public String list(${targetEntityClassName} record,
                        @RequestParam("page") Integer page,
                        @RequestParam("limit") Integer size) {
         Pageable pageable = new PageRequest(page, size);
-        PageInfo<${entityName}> pageInfo = ${variableName}Service.selectListByPageable(record, pageable);
+        PageInfo<${targetEntityClassName}> pageInfo = ${targetEntityVariableName}Service.selectListByPageable(record, pageable);
         ReType reType = new ReType(pageInfo.getTotal(), pageInfo.getList());
         return JSON.toJSONString(reType);
     }
@@ -71,10 +71,10 @@ public class ${entityName}Controller {
      *
      * @return
      */
-    @RequiresPermissions(value = "${variableName}:add")
+    @RequiresPermissions(value = "${targetEntityVariableName}:add")
     @GetMapping(value = "/add")
     public String add(Model model) {
-        return "/${variableName}/${variableName}Add";
+        return "/${targetEntityVariableName}/${targetEntityVariableName}Add";
     }
     
     
@@ -85,12 +85,12 @@ public class ${entityName}Controller {
      * @param model
      * @return
      */
-    @RequiresPermissions(value = "${variableName}:view")
+    @RequiresPermissions(value = "${targetEntityVariableName}:view")
     @GetMapping(value = "/{id:\\w+}")
-    public String detail(@PathVariable("id") ${primaryKey.javaType} id, Model model) {
-        ${entityName} record = ${variableName}Service.selectByPrimaryKey(id);
+    public String detail(@PathVariable("id") ${data.primaryKeys[0].javaType} id, Model model) {
+        ${targetEntityClassName} record = ${targetEntityVariableName}Service.selectByPrimaryKey(id);
         model.addAttribute("record", record);
-        return "/${variableName}/${variableName}Detail";
+        return "/${targetEntityVariableName}/${targetEntityVariableName}Detail";
     }
 
     /**
@@ -100,12 +100,12 @@ public class ${entityName}Controller {
      * @param model
      * @return
      */
-    @RequiresPermissions(value = "${variableName}:edit")
+    @RequiresPermissions(value = "${targetEntityVariableName}:edit")
     @GetMapping(value = "/edit/{id:\\w+}")
-    public String edit(@PathVariable("id") ${primaryKey.javaType} id, Model model) {
-        ${entityName} record = ${variableName}Service.selectByPrimaryKey(id);
+    public String edit(@PathVariable("id") ${data.primaryKeys[0].javaType} id, Model model) {
+        ${targetEntityClassName} record = ${targetEntityVariableName}Service.selectByPrimaryKey(id);
         model.addAttribute("record", record);
-        return "/${variableName}/${variableName}Edit";
+        return "/${targetEntityVariableName}/${targetEntityVariableName}Edit";
     }
 
 
@@ -116,8 +116,8 @@ public class ${entityName}Controller {
      */
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions(value = "${variableName}:save")
-    public ResultEntity save(${entityName} record) {
+    @RequiresPermissions(value = "${targetEntityVariableName}:save")
+    public ResultEntity save(${targetEntityClassName} record) {
         CurrentUser user = CommonUtil.getUser();
         if (null == record.getId()) {
             record.setCreateMan(user.getUsername());
@@ -125,7 +125,7 @@ public class ${entityName}Controller {
         }
         record.setModifyMan(user.getUsername());
         record.setModifyTime(new Date());
-        return ResultEntityUtil.success(${variableName}Service.save(record));
+        return ResultEntityUtil.success(${targetEntityVariableName}Service.save(record));
     }
 
     /**
@@ -136,10 +136,10 @@ public class ${entityName}Controller {
      */
     @DeleteMapping("/{id:\\w+}")
     @ResponseBody
-    @RequiresPermissions(value = "${variableName}:delete")
-    public ResultEntity deleteById(@PathVariable("id") ${primaryKey.javaType} id) {
+    @RequiresPermissions(value = "${targetEntityVariableName}:delete")
+    public ResultEntity deleteById(@PathVariable("id") ${data.primaryKeys[0].javaType} id) {
         CurrentUser user = CommonUtil.getUser();
-        int delete = ${variableName}Service.delete(id, user.getUsername());
+        int delete = ${targetEntityVariableName}Service.delete(id, user.getUsername());
         return ResultEntityUtil.success(delete);
     }
 }

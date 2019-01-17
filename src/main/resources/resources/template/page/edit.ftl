@@ -12,26 +12,26 @@ ${"<#include \"/common/head.ftl\" />"}
                      <#list columns as col>
                          <#if col.columnKey??>
                             <#if 'PRI' == col.columnKey>
-            <input id="${col.fieldName!}" value="${r"${record."}${col.fieldName}${r"?string('#')}"}" type="hidden" name="${col.fieldName}">
+            <input id="${col.config.fieldName!}" value="${r"${record."}${col.config.fieldName}${r"?string('#')}"}" type="hidden" name="${col.config.fieldName}">
                             </#if>
-                            <#if col.canEdit>
-                                <#if col.fieldName == "remark">
+                            <#if col.config.canEdit>
+                                <#if col.config.fieldName == "remark">
             <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">${col.fieldText!}：</label>
+                <label class="layui-form-label">${col.config.fieldText}：</label>
                 <div class="layui-input-block">
-                    <textarea name="remark" id="${col.fieldName!}" placeholder="请输入${col.fieldText!}" class="layui-textarea" title="${col.fieldText!}">${r"${record."}${col.fieldName}${r"}"}</textarea>
+                    <textarea name="remark" id="${col.config.fieldName!}" placeholder="请输入${col.config.fieldText}" class="layui-textarea" title="${col.config.fieldText}">${r"${record."}${col.config.fieldName}${r"}"}</textarea>
                 </div>
             </div>
                                 <#else>
             <div class="layui-form-item">
-                <label class="layui-form-label">${col.fieldText!}：</label>
+                <label class="layui-form-label">${col.config.fieldText}：</label>
                 <div class="layui-input-block">
                                     <#if col.javaType == 'Date'>
-                    <input type="text" id="${col.fieldName!}" name="${col.fieldName!}" value="${r"${(record."}${col.fieldName}${r"?string('yyyy-MM-dd'))!}"}" placeholder="请输入${col.fieldText!}" <#if col.nullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.fieldText!}" lay-date='{format:"yyyy-MM-dd"}'>
+                    <input type="text" id="${col.config.fieldName!}" name="${col.config.fieldName!}" value="${r"${(record."}${col.config.fieldName}${r"?string('yyyy-MM-dd'))!}"}" placeholder="请输入${col.config.fieldText}" <#if col.nullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.config.fieldText}" lay-date='{format:"yyyy-MM-dd"}'>
                                     <#elseif col.javaType == "Integer" || col.javaType == "Long">
-                    <input type="text" id="${col.fieldName!}" name="${col.fieldName!}" value="${r"${(record."}${col.fieldName}${r"?string('#'))!}"}" placeholder="请输入${col.fieldText!}" <#if col.nullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.fieldText!}">
+                    <input type="text" id="${col.config.fieldName!}" name="${col.config.fieldName!}" value="${r"${(record."}${col.config.fieldName}${r"?string('#'))!}"}" placeholder="请输入${col.config.fieldText}" <#if col.nullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.config.fieldText}">
                                     <#else>
-                    <input type="text" id="${col.fieldName!}" name="${col.fieldName!}" value="${r"${record."}${col.fieldName}${r"!}"}" placeholder="请输入${col.fieldText!}" <#if col.nullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.fieldText!}">
+                    <input type="text" id="${col.config.fieldName!}" name="${col.config.fieldName!}" value="${r"${record."}${col.config.fieldName}${r"!}"}" placeholder="请输入${col.config.fieldText}" <#if col.nullable =='NO'>lay-verify="required"</#if> autocomplete="off" class="layui-input" title="${col.config.fieldText}">
                                     </#if>
                 </div>
             </div>
@@ -53,6 +53,6 @@ ${"<#include \"/common/head.ftl\" />"}
     </div>
 </div>
 <script type="text/javascript" src="${r"${re.contextPath}"}/plugin/js/common/merchant.adapter.layer.form.js"></script>
-<script type="text/javascript" src="${r"${re.contextPath}"}/plugin/js/${variableName}/${variableName}Edit.js"></script>
+<script type="text/javascript" src="${r"${re.contextPath}"}/plugin/js/${targetEntityVariableName}/${targetEntityVariableName}Edit.js"></script>
 </body>
 </html>

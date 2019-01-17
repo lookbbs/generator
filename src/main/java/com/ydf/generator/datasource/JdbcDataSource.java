@@ -17,7 +17,7 @@ public class JdbcDataSource {
     public Connection getConnection(DatabaseConfig config) throws ClassNotFoundException, SQLException {
         DatabaseDialect databaseDialect = DatabaseDialect.getDatabaseDialect(config.getDialect());
 
-        Class.forName(databaseDialect.getDriverClassName());
+        Class.forName(databaseDialect.getDriverClass());
         return DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/1/8
  */
 @Component
-public class DatabaseMemberCache extends AbstractCache<DatabaseConfig> {
+public class DatabaseMemoryCache extends AbstractMemoryCache<DatabaseConfig> {
 
     @Autowired
     private DatabaseContextHolder databaseContextHolder;

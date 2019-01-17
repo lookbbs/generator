@@ -1,7 +1,7 @@
 package com.ydf.generator.service.impl;
 
-import com.ydf.generator.cache.DatabaseMemberCache;
-import com.ydf.generator.cache.TableMemberCache;
+import com.ydf.generator.cache.DatabaseMemoryCache;
+import com.ydf.generator.cache.TableMemoryCache;
 import com.ydf.generator.datasource.DatabaseDialect;
 import com.ydf.generator.datasource.DatabaseHolder;
 import com.ydf.generator.dto.DatabaseConfig;
@@ -23,18 +23,20 @@ import java.util.List;
 public class DatabaseServiceImpl implements DatabaseService {
 
     @Autowired
-    private DatabaseMemberCache databaseMemberCache;
+    private DatabaseMemoryCache databaseMemberCache;
 
     @Autowired
-    private TableMemberCache tableMemberCache;
+    private TableMemoryCache tableMemberCache;
 
     @Autowired
     private FreemarkerProcessor freemarkerProcessor;
 
     @Autowired
     private DatabaseHolder databaseHolder;
+
     @Autowired
     private DatabaseContextHolder databaseContextHolder;
+
     @Override
     public DatabaseConfig getConfig(String dialect) {
         return databaseMemberCache.get(dialect);
@@ -46,6 +48,7 @@ public class DatabaseServiceImpl implements DatabaseService {
         if (null != databaseDialect) {
             formatUrl(databaseDialect.getUrl(), db);
         }
+        db.setDriverClass(databaseDialect.getDriverClass());
         databaseContextHolder.setDatabaseDialect(databaseDialect);
         databaseMemberCache.put(dialect, db);
         tableMemberCache.removeAll();

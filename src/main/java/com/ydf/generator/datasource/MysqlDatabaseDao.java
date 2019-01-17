@@ -3,6 +3,7 @@ package com.ydf.generator.datasource;
 import com.ydf.generator.dto.DatabaseConfig;
 import com.ydf.generator.entity.Column;
 import com.ydf.generator.entity.Table;
+import com.ydf.generator.util.JdbcTypeTool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -98,11 +99,14 @@ public class MysqlDatabaseDao implements DatabaseDao {
     }
 
     @Override
-    public List<Column> selectColumnList(DatabaseConfig db, String table) {
+    public List<Column> selectColumnList(DatabaseConfig db, String table,boolean onlyPrimaryKey) {
         StringBuilder sql = new StringBuilder("SELECT `column_name`,`data_type`,`column_key`,`is_nullable`,`column_comment` " +
                 "FROM `information_schema`.`COLUMNS`");
         sql.append("WHERE `table_schema` = '").append(db.getSchema()).append("'")
                 .append(" AND `table_name` = '").append(table).append("'");
+        if(onlyPrimaryKey){
+            sql.append(" AND COLUMN_KEY = 'PRI' ");
+        }
         try (
                 Connection conn = jdbcDataSource.getConnection(db);
                 Statement statement = conn.createStatement();
@@ -117,6 +121,7 @@ public class MysqlDatabaseDao implements DatabaseDao {
                     c.setJdbcType(rs.getString("data_type"));
                     c.setNullable(rs.getString("is_nullable"));
                     c.setColumnComment(rs.getString("column_comment"));
+                    c.setJavaType(JdbcTypeTool.getJavaType(c.getJdbcType()));
                     result.add(c);
                 }
                 return result;
@@ -126,4 +131,5 @@ public class MysqlDatabaseDao implements DatabaseDao {
         }
         return Collections.EMPTY_LIST;
     }
+
 }

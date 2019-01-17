@@ -1,6 +1,5 @@
 package com.ydf.generator.dto;
 
-import com.ydf.generator.entity.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,8 +11,9 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class TableDto extends Table {
+public class TableDto {
     private String basePackage;
+    private String packages;
     private String entityName;
     private String variableName;
     /**

@@ -16,7 +16,7 @@ import java.util.Map;
  * @date 2019/1/8
  */
 @Slf4j
-public abstract class AbstractCache<T> implements Cache<T> {
+public abstract class AbstractMemoryCache<T> implements Cache<T> {
 
     @Autowired
     private HttpSession session;

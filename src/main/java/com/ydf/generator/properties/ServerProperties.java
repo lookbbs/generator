@@ -1,10 +1,19 @@
 package com.ydf.generator.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author yuandongfei
  * @date 2018/12/4
  */
+@Setter
+@Getter
 public class ServerProperties {
+    /**
+     * 实体类的包名
+     */
+    private PackageProperties packages = new PackageProperties();
     /**
      * 控制层配置
      */
@@ -25,44 +34,4 @@ public class ServerProperties {
      * Mapper.xml配置
      */
     private FileProperties mapper = new FileProperties();
-
-    public FileProperties getController() {
-        return controller;
-    }
-
-    public void setController(FileProperties controller) {
-        this.controller = controller;
-    }
-
-    public FileProperties getService() {
-        return service;
-    }
-
-    public void setService(FileProperties service) {
-        this.service = service;
-    }
-
-    public FileProperties getServiceImpl() {
-        return serviceImpl;
-    }
-
-    public void setServiceImpl(FileProperties serviceImpl) {
-        this.serviceImpl = serviceImpl;
-    }
-
-    public FileProperties getDao() {
-        return dao;
-    }
-
-    public void setDao(FileProperties dao) {
-        this.dao = dao;
-    }
-
-    public FileProperties getMapper() {
-        return mapper;
-    }
-
-    public void setMapper(FileProperties mapper) {
-        this.mapper = mapper;
-    }
 }

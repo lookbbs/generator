@@ -20,15 +20,15 @@ ${"<#include \"/common/head.ftl\" />"}
                 <#if columns??>
                     <#list columns as col>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">${col.fieldText!}：</label>
+                    <label class="layui-form-label">${col.config.fieldText}：</label>
                     <div class="layui-input-block">
                         <label>
                             <#if col.javaType == 'Date'>
-                            ${r"${(record."}${col.fieldName}${r"?string('yyyy-MM-dd'))!}"}
+                            ${r"${(record."}${col.config.fieldName}${r"?string('yyyy-MM-dd'))!}"}
                             <#elseif col.javaType == "Integer" || col.javaType == "Long">
-                            ${r"${(record."}${col.fieldName}${r"?string('#'))!}"}
+                            ${r"${(record."}${col.config.fieldName}${r"?string('#'))!}"}
                             <#else>
-                            ${r"${record."}${col.fieldName}${r"!}"}
+                            ${r"${record."}${col.config.fieldName}${r"!}"}
                             </#if>
                         </label>
                     </div>

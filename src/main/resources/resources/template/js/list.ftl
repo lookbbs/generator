@@ -2,16 +2,16 @@
     var pageConfig = {
         table: {
             render: {
-                url: getCtxPath() + '/${variableName}/list',
+                url: getCtxPath() + '/${targetEntityVariableName}/list',
                 cols: [[
                     {field: true, fixed: true, title: '序号', width: '80', templet: '<div>{{d.LAY_TABLE_INDEX + 1}}</div>', align: 'center'},
             <#if columns??>
                 <#list columns as col>
-                    <#if col.show>
+                    <#if col.config.show>
                         <#if col.javaType == 'Date'>
-                    {field: '${col.fieldName}', title: '${col.fieldText!}', width: '10%', align: 'center',templet: '<div>{{ honglu.util.dateFormat(d.${col.fieldName}) }}</div>'},
+                    {field: '${col.config.fieldName}', title: '${col.config.fieldText}', width: '10%', align: 'center',templet: '<div>{{ honglu.util.dateFormat(d.${col.config.fieldName}) }}</div>'},
                         <#else>
-                    {field: '${col.fieldName}', title: '${col.fieldText!}', width: '10%', align: 'center'},
+                    {field: '${col.config.fieldName}', title: '${col.config.fieldText}', width: '10%', align: 'center'},
                         </#if>
                     </#if>
                 </#list>
@@ -22,16 +22,16 @@
             tools: {
                 view: {
                     title: "查看${tableComment!}",
-                    url: getCtxPath() + '/${variableName}/{{id}}'
+                    url: getCtxPath() + '/${targetEntityVariableName}/{{id}}'
                 },
                 edit: {
                     title: "修改${tableComment!}",
-                    url: getCtxPath() + '/${variableName}/edit/{{id}}'
+                    url: getCtxPath() + '/${targetEntityVariableName}/edit/{{id}}'
                 },
                 delete: {
                     invoke: function (obj) {
                         var msg = '确定删除[<label style="color: #00AA91;">' + obj.id + '</label>]?';
-                        var url = getCtxPath() + '/${variableName}/' + obj.id;
+                        var url = getCtxPath() + '/${targetEntityVariableName}/' + obj.id;
                         honglu.dialog.confirm(msg, function () {
                             honglu.ajax.delete(url, {}, function (result) {
                                 if (result.code == "00000000") {
@@ -54,7 +54,7 @@
             add: function () {
                 honglu.dialog.open({
                     title: "新增",
-                    url: getCtxPath() + '/${variableName}/add'
+                    url: getCtxPath() + '/${targetEntityVariableName}/add'
                 });
             }
         }

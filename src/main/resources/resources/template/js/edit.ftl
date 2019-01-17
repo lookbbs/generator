@@ -1,7 +1,7 @@
 (function () {
     var pageConfig = {
         form: {
-            url: getCtxPath() + '/${variableName}/save',
+            url: getCtxPath() + '/${targetEntityVariableName}/save',
             on: [],
             buildData: function (data) {
                 return data;

@@ -1,11 +1,11 @@
-package ${basePackage}.service.impl;
+package ${packageConfig.service}.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import ${basePackage}.dao.BaseMapper;
-import ${basePackage}.dao.${entityName}Mapper;
-import ${basePackage}.entity.${entityName};
-import ${basePackage}.service.${entityName}Service;
+import ${packageConfig.client}.${targetEntityClassName}Mapper;
+import ${packageConfig.model}.${targetEntityClassName};
+import ${packageConfig.service}.${targetEntityClassName}Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,39 +18,39 @@ import java.util.Objects;
  * @date ${.now?string("yyyy-MM-dd")}
  */
 @Service
-public class ${entityName}ServiceImpl extends BaseServiceImpl<${entityName}, ${primaryKey.javaType}> implements ${entityName}Service {
+public class ${targetEntityClassName}ServiceImpl extends BaseServiceImpl<${targetEntityClassName}, ${data.primaryKeys[0].javaType}> implements ${targetEntityClassName}Service {
 
     @Autowired
-    private ${entityName}Mapper ${variableName}Mapper;
+    private ${targetEntityClassName}Mapper ${targetEntityVariableName}Mapper;
 
     @Override
-    public BaseMapper<${entityName}, ${primaryKey.javaType}> getMappser() {
-        return ${variableName}Mapper;
+    public BaseMapper<${targetEntityClassName}, ${data.primaryKeys[0].javaType}> getMappser() {
+        return ${targetEntityVariableName}Mapper;
     }
 
     @Override
-    public int save(${entityName} record) {
+    public int save(${targetEntityClassName} record) {
         if (null == record.getId()) {
-            return ${variableName}Mapper.insert(record);
+            return ${targetEntityVariableName}Mapper.insert(record);
         } else {
-            return ${variableName}Mapper.updateByPrimaryKeySelective(record);
+            return ${targetEntityVariableName}Mapper.updateByPrimaryKeySelective(record);
         }
     }
 
     @Override
-    public int delete(${primaryKey.javaType} id, String username) {
-        return ${variableName}Mapper.deleteByPrimaryKey(id);
+    public int delete(${data.primaryKeys[0].javaType} id, String username) {
+        return ${targetEntityVariableName}Mapper.deleteByPrimaryKey(id);
     }
 
     @Override
-    public List<${entityName}> selectList(${entityName} record) {
-        return ${variableName}Mapper.selectList(record);
+    public List<${targetEntityClassName}> selectList(${targetEntityClassName} record) {
+        return ${targetEntityVariableName}Mapper.selectList(record);
     }
 
     @Override
-    public PageInfo<${entityName}> selectListByPageable(${entityName} condition, Pageable pageable) {
+    public PageInfo<${targetEntityClassName}> selectListByPageable(${targetEntityClassName} condition, Pageable pageable) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        List<${entityName}> lst = selectList(condition);
+        List<${targetEntityClassName}> lst = selectList(condition);
         return new PageInfo<>(lst);
     }
 }

@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="config">
-    <form th:action="@{/code/db}" method="post" class="layui-form" lay-filter="dbConfig">
+    <form th:action="@{/code/config/db}" method="post" class="layui-form" lay-filter="dbConfig">
         <div class="layui-form-item">
             <label class="layui-form-label">数据库类型：</label>
             <div class="layui-input-inline">
                 <select name="dialect" lay-filter="dialect">
-                    <option value="mysql">Mysql</option>
+                    <option th:value="${item}" th:each="item : ${dialects}" th:text="${item}">Mysql</option>
                 </select>
             </div>
         </div>

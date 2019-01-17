@@ -23,7 +23,7 @@
     </div>
 </script>
 <script type="text/html" id="operatorTpl">
-    <a class="layui-btn layui-btn-xs" data-table="{{d.tableName}}" th:attr="data-url=@{/code/table/} + '{{d.tableName}}/column'" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" data-table="{{d.tableName}}" th:attr="data-url=@{/code/table/} + '{{d.tableName}}/config'" lay-event="edit">编辑</a>
 </script>
 <script id="columnTpl" type="text/html">
     <h3>{{ d.tableName }}</h3>

@@ -1,9 +1,11 @@
 package com.ydf.generator;
 
+import com.ydf.generator.datasource.DatabaseDialect;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -23,7 +25,8 @@ public class GeneratorApplication {
     }
 
     @GetMapping
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("dialects", DatabaseDialect.values());
         return "/index";
     }
 }

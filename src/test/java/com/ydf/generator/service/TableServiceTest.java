@@ -1,6 +1,6 @@
 package com.ydf.generator.service;
 
-import com.ydf.generator.dto.TableDto;
+import com.ydf.generator.entity.Table;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class TableServiceTest {
     @Test
     public void selectList() {
         String[] tables = "sys_user".split(",");
-        List<TableDto> lst = tableService.selectList(tables);
+        List<Table> lst = tableService.selectList(tables);
         System.out.println(lst.size());
     }
 }

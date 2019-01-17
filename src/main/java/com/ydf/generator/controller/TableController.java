@@ -1,9 +1,8 @@
 package com.ydf.generator.controller;
 
-import com.ydf.generator.dto.BuildFileConfig;
 import com.ydf.generator.dto.ColumnDto;
-import com.ydf.generator.dto.TableDto;
-import com.ydf.generator.service.ColumnService;
+import com.ydf.generator.dto.GenerateEntity;
+import com.ydf.generator.entity.Table;
 import com.ydf.generator.service.ExportService;
 import com.ydf.generator.service.TableService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,8 +27,6 @@ public class TableController {
     @Autowired
     private TableService tableService;
     @Autowired
-    private ColumnService columnService;
-    @Autowired
     private ExportService exportService;
 
     @GetMapping
@@ -40,20 +36,33 @@ public class TableController {
 
     @GetMapping("/list")
     @ResponseBody
-    public ResponseEntity<List<TableDto>> list() {
-        List<TableDto> lst = tableService.selectList(null);
+    public ResponseEntity<List<Table>> list() {
+        List<Table> lst = tableService.selectList(null);
         return ResponseEntity.ok(lst);
     }
 
-    @PostMapping("/{table}/column")
+    @GetMapping("/{table}/config")
+    public String pageColumnConfig(@PathVariable("table") String table, Model model) {
+        GenerateEntity entity = tableService.getByTableName(table);
+        model.addAttribute("record", entity);
+        return "code/column";
+    }
+
+    @GetMapping("/{table}/columns")
+    @ResponseBody
+    public ResponseEntity<List<ColumnDto>> getColumnConfig(@PathVariable("table") String table) {
+        return ResponseEntity.ok(tableService.getColumns(table));
+    }
+
+    @PostMapping("/{table}/columns")
     @ResponseBody
     public ResponseEntity<String> saveColumnConfig(@PathVariable("table") String table, String data) throws IOException {
-        return ResponseEntity.ok(tableService.saveColumn(table, data));
+        return ResponseEntity.ok(tableService.saveColumns(table, data));
     }
 
     @PostMapping
     public void exportFile(String tables, HttpServletResponse response) throws Exception {
-        File export = exportService.export(tables, true);
+        File export = exportService.export(tables);
         if (null != export) {
             try (
                     InputStream inputStream = new FileInputStream(export);
@@ -68,14 +77,4 @@ public class TableController {
         }
     }
 
-    @GetMapping("/config")
-    public ResponseEntity<List<BuildFileConfig>> configList() {
-        return ResponseEntity.ok(tableService.getConfigList());
-    }
-
-    @PostMapping("/config")
-    public ResponseEntity<String> config(BuildFileConfig config) {
-        tableService.saveConfig(config);
-        return ResponseEntity.ok("success");
-    }
 }

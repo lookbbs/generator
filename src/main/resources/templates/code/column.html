@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/head::page-head(title=${'表配置 -- 代码自动生成工具'})"></head>
+<body>
+<!-- 内容主体区域 -->
+<div>
+    <div class="layui-form form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">表名：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="tableName" th:value="${record.tableName}" class="layui-input layui-disabled" readonly>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">实体类名：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="targetEntityClassName" th:value="${record.targetEntityClassName}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">实体类包名：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="targetEntityPackage" th:value="${record.targetEntityPackage}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">存放目录：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="targetPath" th:value="${record.targetPath}" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <table id="columnList" class="layui-table" th:attr="data-url=@{/code/table/} + ${record.tableName} + '/columns'"/>
+    <script type="text/html" id="switchNullableTpl">
+        <input type="checkbox" name="nullable" data-state="{{d.config.nullable}}" lay-skin="switch" lay-filter="nullableSwitch" lay-text="是|否" {{# if(d.config.nullable) { }}checked{{# }}}>
+    </script>
+    <script type="text/html" id="fieldTextTpl">
+        <input type="text" name="fieldText" value="{{d.config.fieldText}}" placeholder="请输入{{d.columnComment}}" autocomplete="off" class="layui-input">
+    </script>
+    <script type="text/html" id="switchShowTpl">
+        <input type="checkbox" name="show" data-state="{{d.config.show}}" lay-skin="switch" lay-filter="showSwitch" lay-text="是|否" {{# if(d.config.show) { }}checked{{# }}}>
+        <input type="hidden" name="columnName" value="{{d.columnName}}"/>
+    </script>
+    <script type="text/html" id="switchSearchTpl">
+        <input type="checkbox" name="search" data-state="{{d.config.search}}" lay-skin="switch" lay-filter="searchSwitch" lay-text="是|否" {{# if(d.config.search) { }}checked{{# }}}>
+    </script>
+    <script type="text/html" id="switchCanEditTpl">
+        <input type="checkbox" name="canEdit" data-state="{{d.config.canEdit}}" lay-skin="switch" lay-filter="canEditSwitch" lay-text="是|否" {{# if(d.config.canEdit) { }}checked{{# }}}>
+    </script>
+</div>
+<style type="text/css">
+    .layui-form-item .layui-input-inline {
+        width: 300px;
+    }
+
+    .layui-disabled, .layui-disabled:hover {
+        color: #333 !important;
+    }
+</style>
+<script type="text/javascript" th:src="@{/static/column.js}"></script>
+</body>
+</html>

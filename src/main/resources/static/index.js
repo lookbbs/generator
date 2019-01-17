@@ -1,13 +1,13 @@
 layui.use(['element', 'form', 'laytpl', 'table'], function () {
-    var element = layui.element,
+    const element = layui.element,
         form = layui.form,
-        table = layui.table;
-
+        table = layui.table,
+        $ = layui.$;
 
     element.on('tab(tabConfig)', function (data) {
         if (data.index == 1) {
             // 当显示“生成配置”选项卡时，加载内容并显示
-            var url = $(data.elem).find(".layui-tab-content .layui-show form")[0].action;
+            const url = $(data.elem).find(".layui-tab-content .layui-show form")[0].action;
             table.render({
                 elem: '#configTable',
                 url: url,
@@ -32,32 +32,28 @@ layui.use(['element', 'form', 'laytpl', 'table'], function () {
     });
 
     form.on('select(dialect)', function (obj) {
-        var url = obj.elem.form.action + '/' + obj.value
+        const url = obj.elem.form.action + '/' + obj.value
         $.getJSON(url, function (result) {
             $("input[data-schema]").change();
             form.val('dbConfig', result);
         })
     })
 
-    form.on('select(schema)', function (obj) {
-        console.log(obj)
-    })
-
     form.on('switch(enableSwitch)', function (data) {
-        var name = $(this).data("name") || 0;
-        var enable = this.checked;
-        var url = data.elem.form.action;
+        const name = $(this).data("name") || 0;
+        const enable = this.checked;
+        const url = data.elem.form.action;
         $.post(url, {name: name, enable: enable}, function (result) {
             console.log(result);
         })
     });
 
-    $("input[data-schema]").on('change', function (e) {
-        var d = {}, flag = true;
+    $("input[data-schema]").on('focus', function (e) {
+        let d = {}, flag = true;
         d.dialect = $("select[name='dialect']").val();
         d.encoding = $("select[name='encoding']").val();
         $("input[data-schema]").each(function () {
-            var ds = this.getAttribute("data-schema");
+            const ds = this.getAttribute("data-schema");
             if (ds == 'required' && !$.trim(this.value)) {
                 this.focus();
                 flag = false;
@@ -66,13 +62,15 @@ layui.use(['element', 'form', 'laytpl', 'table'], function () {
             d[this.name] = this.value;
         });
         if (flag) {
-            var _form = document.forms[0];
+            const _form = document.forms[0];
             $.getJSON(_form.action, d, function (result) {
-                var $schema = $("select[name='schema']");
+                const $schema = $("select[name='schema']");
                 $schema.empty();
-                $(result).each(function () {
-                    $schema.append('<option value="' + this + '">' + this + '</option>');
-                });
+                if (Array.isArray(result)) {
+                    $(result).each(function () {
+                        $schema.append('<option value="' + this + '">' + this + '</option>');
+                    });
+                }
                 form.render("select");
             });
         }

@@ -18,6 +18,10 @@ public class DatabaseConfig {
      */
     private String dialect;
     /**
+     * 数据库的驱动类
+     */
+    private String driverClass;
+    /**
      * 数据库主机地址
      */
     private String host;

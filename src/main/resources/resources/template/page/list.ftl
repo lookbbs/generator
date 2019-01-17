@@ -18,14 +18,14 @@ ${"<#include \"/common/head.ftl\" />"}
             <div class="layui-form-item">
                 <#if columns??>
                     <#list columns as col>
-                        <#if col.search>
+                        <#if col.config.search>
                 <div class="layui-inline">
-                    <label class="layui-form-label">${col.fieldText!}：</label>
+                    <label class="layui-form-label">${col.config.fieldText}：</label>
                     <div class="layui-input-inline">
                         <#if col.javaType=="Date">
-                            <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}'>
+                            <input type="text" id="${col.config.fieldName!}" name="${col.config.fieldName}" placeholder="请输入${col.config.fieldText}" autocomplete="off" class="layui-input" lay-date='{format:"yyyy-MM-dd"}'>
                         <#else>
-                            <input type="text" id="${col.fieldName!}" name="${col.fieldName}" placeholder="请输入${col.fieldText!}" autocomplete="off" class="layui-input">
+                            <input type="text" id="${col.config.fieldName!}" name="${col.config.fieldName}" placeholder="请输入${col.config.fieldText}" autocomplete="off" class="layui-input">
                         </#if>
                     </div>
                 </div>
@@ -57,6 +57,6 @@ ${"<#include \"/common/head.ftl\" />"}
 </script>
 
 <script type="text/javascript" src="${r"${re.contextPath}"}/plugin/js/common/merchant.adapter.layer.table.js"></script>
-<script type="text/javascript" src="${r"${re.contextPath}"}/plugin/js/${variableName}/${variableName}List.js"></script>
+<script type="text/javascript" src="${r"${re.contextPath}"}/plugin/js/${targetEntityVariableName}/${targetEntityVariableName}List.js"></script>
 </body>
 </html>

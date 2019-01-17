@@ -1,7 +1,7 @@
 package com.ydf.generator.cache;
 
 import com.ydf.generator.dto.BuildFileConfig;
-import com.ydf.generator.template.Template;
+import com.ydf.generator.template.GeneratorTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,16 +12,16 @@ import java.util.List;
  * @date 2019/1/10
  */
 @Component
-public class BuildFileConfigMemberCache extends AbstractCache<BuildFileConfig> {
+public class BuildFileConfigMemoryCache extends AbstractMemoryCache<BuildFileConfig> {
 
     @Autowired
-    private List<Template> templates;
+    private List<GeneratorTemplate> templates;
 
     private void init() {
         if (isEmpty()) {
             synchronized (templates) {
                 if (isEmpty()) {
-                    for (Template t : templates) {
+                    for (GeneratorTemplate t : templates) {
                         BuildFileConfig c = new BuildFileConfig();
                         c.setComment(t.getCommon());
                         c.setName(t.getName());
