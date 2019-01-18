@@ -1,10 +1,11 @@
 # generator
-自动生成代码工具
+一键生成代码工具
 
-# 该工具是MyBatis generator 工具的补充工具
-使用MyBatis generator生成mapper.xml,Mapper.java,entity等文件
+基于Web操作界面的一款代码生成工具
 
-再使用该工具生成对应的
+# MBG Core 生成Mode类，xxxxMapper.java, xxxxMapper.xml
+
+# 自定义模板生成下面的代码
 
 前端页面：
 	list
