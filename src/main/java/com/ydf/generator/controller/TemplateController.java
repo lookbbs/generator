@@ -4,23 +4,28 @@ import com.ydf.generator.dto.BuildFileConfig;
 import com.ydf.generator.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 /**
  * @author yuandongfei
- * @date 2019/1/16
+ * @date 2019/1/21
  */
-@RestController
-@RequestMapping("/code/config")
-public class ConfigController {
+@Controller
+@RequestMapping("/sys/config")
+public class TemplateController {
 
     @Autowired
     private ConfigService configService;
+
+    @GetMapping("/template")
+    public String index() {
+        return "code/template";
+    }
 
     @GetMapping("/templates")
     public ResponseEntity<List<BuildFileConfig>> configList() {

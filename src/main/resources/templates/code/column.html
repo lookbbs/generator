@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    <table id="columnList" class="layui-table" th:attr="data-url=@{/code/table/} + ${record.tableName} + '/columns'"/>
+    <table id="columnList" class="layui-table" th:attr="data-url=@{/sys/table/} + ${record.tableName} + '/columns'"/>
     <script type="text/html" id="switchNullableTpl">
         <input type="checkbox" name="nullable" data-state="{{d.config.nullable}}" lay-skin="switch" lay-filter="nullableSwitch" lay-text="是|否" {{# if(d.config.nullable) { }}checked{{# }}}>
     </script>

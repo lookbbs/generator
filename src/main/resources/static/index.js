@@ -1,105 +1,59 @@
-layui.use(['element', 'form', 'laytpl', 'table'], function () {
+layui.use('element', function () {
     const element = layui.element,
-        form = layui.form,
-        table = layui.table,
         $ = layui.$;
 
-    element.on('tab(tabConfig)', function (data) {
-        if (data.index == 1) {
-            // 当显示“生成配置”选项卡时，加载内容并显示
-            const url = $(data.elem).find(".layui-tab-content .layui-show form")[0].action;
-            table.render({
-                elem: '#configTable',
-                url: url,
-                page: false,
-                loading: true,
-                even: true,
-                skin: "row",
-                limit: 100,
-                parseData: function (data) {
-                    return {
-                        code: 0,
-                        data: data
-                    }
-                },
-                cols: [[
-                    {field: 'name', width: 300, title: '文件名'},
-                    {field: 'enable', width: 300, title: '需要生成', templet: "#switchEnableTpl"},
-                    {field: 'comment', title: '说明'}
-                ]]
-            });
+    /**
+     * tab操作动作实现
+     * @type {{tabAdd: tabAdd, tabChange: tabChange, autoFrameSize: autoFrameSize}}
+     */
+    const active = {
+        /**
+         * tab 添加
+         * @param config
+         */
+        tabAdd: function (config) {
+            if (!config.url) {
+                console.error("菜单项未配置data-url属性");
+            }
+            const conf = $.extend({id: new Date().getTime(), url: '#', title: '未配置data-title属性', filter: 'demo'}, config);
+            element.tabAdd(conf.filter, {
+                id: conf.id,
+                title: conf.title,
+                content: '<iframe data-frameid="' + conf.id + '" frameborder="0" name="content" scrolling="auto" width="100%" src="' + conf.url + '"></iframe>'
+            })
+            this.autoFrameSize();
+        },
+        /**
+         * tab 切换动作
+         * @param config
+         */
+        tabChange: function (config) {
+            const conf = $.extend({id: new Date().getTime(), filter: 'demo'}, config);
+            element.tabChange(conf.filter, conf.id);
+        },
+        /**
+         * tab 内容的高度自动适应
+         * @param config
+         */
+        autoFrameSize: function () {
+            const h = $(window).height() - 41 - 10 - 60 - 10 - 44 - 10 - 13;
+            $("iframe").css("height", h + "px");
         }
+    }
+
+    $(".layui-nav a.site-nav-active").on('click', function () {
+        const $this = $(this),
+            url = $this.data("url"),
+            id = $this.data("id") || new Date().getTime(),
+            title = $this.data("title") || new Date().getTime();
+        const tabs = $(".layui-tab .layui-tab-title li[lay-id='" + id + "']");
+        if (!tabs.length) {
+            active.tabAdd({id: id, url: url, title: title})
+        }
+        active.tabChange({id: id});
     });
 
-    form.on('select(dialect)', function (obj) {
-        const url = obj.elem.form.action + '/' + obj.value
-        $.getJSON(url, function (result) {
-            $("input[data-schema]").change();
-            form.val('dbConfig', result);
-        })
+    element.on('tabDelete(demo)', function (data) {
+        console.log("tab closed", data.index)
     })
-
-    form.on('switch(enableSwitch)', function (data) {
-        const name = $(this).data("name") || 0;
-        const enable = this.checked;
-        const url = data.elem.form.action;
-        $.post(url, {name: name, enable: enable}, function (result) {
-            console.log(result);
-        })
-    });
-
-    $("input[data-schema]").on('focus', function (e) {
-        let d = {}, flag = true;
-        d.dialect = $("select[name='dialect']").val();
-        d.encoding = $("select[name='encoding']").val();
-        $("input[data-schema]").each(function () {
-            const ds = this.getAttribute("data-schema");
-            if (ds == 'required' && !$.trim(this.value)) {
-                this.focus();
-                flag = false;
-                return false;
-            }
-            d[this.name] = this.value;
-        });
-        if (flag) {
-            const _form = document.forms[0];
-            $.getJSON(_form.action, d, function (result) {
-                const $schema = $("select[name='schema']");
-                $schema.empty();
-                if (Array.isArray(result)) {
-                    $(result).each(function () {
-                        $schema.append('<option value="' + this + '">' + this + '</option>');
-                    });
-                }
-                form.render("select");
-            });
-        }
-    });
-
-    form.on('submit(save)', function (data) {
-        console.log(data);
-        $.ajax({
-            url: data.form.action,
-            method: data.form.method,
-            data: data.field,
-            success: function (result) {
-                if ('ok' == result) {
-                    layer.msg("配置保存成功！");
-                }
-            }
-        });
-        return false;
-    });
-    form.render();
-    selectTrigger('dialect', 'mysql');
 });
-
-/**
- * select标签的事件触发
- * @param name 标签name
- * @param val 选中的值
- */
-function selectTrigger(name, val) {
-    $("select[name='" + name + "']").next().find('.layui-select-title input').click();
-    $("select[name='" + name + "']").next().find('.layui-anim').children('dd[lay-value="' + val + '"]').click();
-}

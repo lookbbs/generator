@@ -6,8 +6,10 @@ import com.ydf.generator.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -15,11 +17,17 @@ import java.util.List;
  * @date 2019/1/8
  */
 @Controller
-@RequestMapping("/code/config/db")
+@RequestMapping("/sys/config/db")
 public class DbController {
 
     @Autowired
     private DatabaseService databaseService;
+
+    @GetMapping
+    public String index(Model model) {
+        model.addAttribute("dialects", DatabaseDialect.values());
+        return "code/database";
+    }
 
     @GetMapping("/dialects")
     @ResponseBody
@@ -35,16 +43,16 @@ public class DbController {
     }
 
 
-    @PostMapping
+    @PostMapping("/dbs")
     @ResponseBody
     public ResponseEntity<String> save(DatabaseConfig db) {
         databaseService.saveConfig(db.getDialect(), db);
         return ResponseEntity.ok("ok");
     }
 
-    @GetMapping
+    @GetMapping("/dbs")
     @ResponseBody
-    public ResponseEntity<List<String>> getDatabases(DatabaseConfig db) {
+    public ResponseEntity<List<String>> getDatabases(DatabaseConfig db, HttpServletRequest request) {
         List<String> tables = databaseService.getDatabases(db);
         return ResponseEntity.ok(tables);
     }

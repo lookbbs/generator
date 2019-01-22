@@ -20,7 +20,9 @@ public class MvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         // 添加拦截器，拦截/code/table开始的路径
-        registry.addInterceptor(configInterceptor).addPathPatterns("/code/table/**");
+        registry.addInterceptor(configInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/", "/static/**", "/sys/config/db/**");
     }
 
     @Override

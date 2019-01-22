@@ -3,19 +3,8 @@
 <head th:include="include/head::page-head(title=${'表配置 -- 代码自动生成工具'})"></head>
 <body>
 <div class="layui-layout layui-layout-admin">
-    <div class="layui-header" th:include="include/layui-head::layui-header"></div>
-
-    <div class="layui-side layui-bg-black" th:include="include/layui-side::layui-side(nav='table')"></div>
-
-    <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
-            <table id="tableList" class="layui-table" lay-filter="tableList" th:attr="data-url=@{/code/table/list}"></table>
-            <a th:href="@{/code/table}" class="layui-hide" id="exportUrl"></a>
-        </div>
-    </div>
-
-    <div class="layui-footer" th:include="include/layui-footer::layui-footer"></div>
+            <table id="tableList" class="layui-table" lay-filter="tableList" th:attr="data-url=@{/sys/table/list}"></table>
+            <a th:href="@{/sys/table}" class="layui-hide" id="exportUrl"></a>
 </div>
 <script type="text/html" id="toolbarTpl">
     <div class="layui-btn-container">
@@ -23,62 +12,7 @@
     </div>
 </script>
 <script type="text/html" id="operatorTpl">
-    <a class="layui-btn layui-btn-xs" data-table="{{d.tableName}}" th:attr="data-url=@{/code/table/} + '{{d.tableName}}/config'" lay-event="edit">编辑</a>
-</script>
-<script id="columnTpl" type="text/html">
-    <h3>{{ d.tableName }}</h3>
-    <table class="layui-table" lay-filter="table">
-        <thead>
-        <tr>
-            <th lay-data="{field:'columnComment',align:'center', fixed: true}">列名备注</th>
-            <th lay-data="{field:'columnName', align:'center',sort: true, fixed: true}">列名</th>
-            <th lay-data="{field: 'jdbcType',align:'center',fixed: true}">数据类型</th>
-            <th lay-data="{field: 'nullable',align:'center',fixed: true}" title="此配置为表单输入项非空验证配置">可以为空</th>
-            <th lay-data="{field:'fieldName', align:'center',fixed: true}">字段名</th>
-            <th lay-data="{field:'showTitle', align:'center',fixed: true}">显示的名称</th>
-            <th lay-data="{field:'show', align:'center',fixed: true}">列表中显示该列</th>
-            <th lay-data="{field: 'search',align:'center',fixed: true}">是搜索条件</th>
-            <th lay-data="{field: 'canEdit',align:'center',fixed: true}">编辑该列</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{# layui.each(d.columns, function(index, item){ }}
-        <tr>
-            <td>{{item.columnComment}}</td>
-            <td>{{item.columnName}}</td>
-            <td>{{item.jdbcType}}</td>
-            <td>
-                <input type="checkbox" name="nullable" lay-skin="switch" lay-text="是|否" checked="{{item.nullable === 'YES'}}">
-            </td>
-            <td>{{item.fieldName}}</td>
-            <td>
-                <input type="text" name="fieldText" value="{{item.fieldText ? item.fieldText : item.columnComment}}" placeholder="请输入{{item.columnComment}}" autocomplete="off" class="layui-input">
-            </td>
-            <td>
-                <div class="layui-input-block">
-                    <input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" checked="{{item.show}}">
-                    <input type="hidden" name="columnName" value="{{item.columnName}}"/>
-                </div>
-            </td>
-            <td>
-                <div class="layui-input-block">
-                    <input type="checkbox" name="search" lay-skin="switch" lay-text="是|否" checked="{{item.search}}">
-                </div>
-            </td>
-            <td>
-                <div class="layui-input-block">
-                    <input type="checkbox" name="canEdit" lay-skin="switch" lay-text="是|否" checked="{{item.canEdit}}">
-                </div>
-            </td>
-        </tr>
-        {{# }); }}
-        {{# if(d.columns.length === 0){ }}
-        <tr>
-            <td>无数据</td>
-        </tr>
-        {{# } }}
-        </tbody>
-    </table>
+    <a class="layui-btn layui-btn-xs" data-table="{{d.tableName}}" th:attr="data-url=@{/sys/table/} + '{{d.tableName}}/config'" lay-event="edit">编辑</a>
 </script>
 <script type="text/javascript" th:src="@{/static/table.js}"></script>
 </body>

@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2018/12/5
  */
 @Controller
-@RequestMapping("/code/table")
+@RequestMapping("/sys/table")
 public class TableController {
 
     @Autowired

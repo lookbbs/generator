@@ -1,36 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="include/head::page-head(title=${'代码自动生成工具'})">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>一键生成代码</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <script th:src="@{/static/jquery/jquery-3.2.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
 </head>
-<body>
+<body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-    <div class="layui-header" th:include="include/layui-head::layui-header"></div>
+    <div class="layui-header">
+        <div class="layui-logo">一键生成代码V1.1</div>
+    </div>
 
-    <div class="layui-side layui-bg-black" th:include="include/layui-side::layui-side(nav='main')"></div>
-
-    <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
-            <div class="layui-tab layui-tab-brief" lay-filter="tabConfig" lay-allowclose="true">
-                <ul class="layui-tab-title">
-                    <li class="layui-this" lay-id="11">连接设置</li>
-                    <li lay-id="22">生成配置</li>
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show" th:include="include/connection_config::config">
-                        连接设置
-                    </div>
-                    <div class="layui-tab-item" th:include="include/build_config::config">
-                        生成配置
-                    </div>
-                </div>
-            </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="leftNavTree">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">系统配置</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" class="site-nav-active" th:attr='data-url=@{/sys/config/db}' data-id="dbConfig" data-title="DB配置">DB配置</a></dd>
+                        <dd><a href="javascript:;" class="site-nav-active" th:attr='data-url=@{/sys/config/template}' data-id="fileConfig" data-title="模板配置">模板配置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">代码生成</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" class="site-nav-active" th:attr='data-url=@{/sys/table}' data-id="generatorCode" data-title="一键生成">一键生成</a></dd>
+                    </dl>
+                </li>
+            </ul>
         </div>
     </div>
 
-    <div class="layui-footer" th:include="include/layui-footer::layui-footer"></div>
-</div>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div class="layui-tab layui-tab-brief" lay-filter="demo" lay-allowclose="true">
+            <ul class="layui-tab-title"></ul>
+            <div class="layui-tab-content"></div>
+        </div>
+    </div>
 
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © yuandongfei@xiaoniu.com
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/static/layui/layui.all.js}"></script>
 <script type="text/javascript" th:src="@{/static/index.js}"></script>
 </body>
 </html>

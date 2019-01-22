@@ -24,8 +24,8 @@ layui.use(['table', 'form', 'layer'], function () {
         cols: [[
             {type: 'checkbox', fixed: 'left'},
             {field: 'tableSchema', width: 300, title: 'Schema'},
-            {field: 'tableName', width: 300, sort: true, title: 'Table'},
-            {field: 'tableComment', width: 300, title: '备注'},
+            {field: 'tableName', width: 400, sort: true, title: 'Table'},
+            {field: 'tableComment', width: 500, title: '备注'},
             {fixed: 'right', title: '操作', toolbar: "#operatorTpl"}
         ]],
         done: function (res, curr, count) {
@@ -77,7 +77,6 @@ layui.use(['table', 'form', 'layer'], function () {
                         }
                     });
                     return false;
-
                 }
             }));
         }
@@ -109,5 +108,4 @@ layui.use(['table', 'form', 'layer'], function () {
             return false;
         }
     });
-    form.render();
 })

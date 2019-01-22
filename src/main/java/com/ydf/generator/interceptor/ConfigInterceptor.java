@@ -30,16 +30,17 @@ public class ConfigInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info("拦截器拦截URL：{}",request.getRequestURL());
         DatabaseDialect dialect = databaseContextHolder.getDatabaseDialect();
         if (null == dialect) {
             log.info(">>> 系统中不存在主配置文件，系统自动跳转到配置文件页面，引导用户配置");
-            response.sendRedirect(request.getContextPath() + "/");
+            response.sendRedirect(request.getContextPath() + "/sys/config/db");
             return false;
         }
         DatabaseConfig databaseConfig = databaseCache.get();
         if (null == databaseConfig) {
             log.info(">>> 系统中不存在DB配置文件，系统自动跳转到配置文件页面，引导用户配置");
-            response.sendRedirect(request.getContextPath() + "/");
+            response.sendRedirect(request.getContextPath() + "/sys/config/db");
             return false;
         }
         return true;
