@@ -36,3 +36,7 @@
 # Web界面操作
 运行：GeneratorApplication.java
 默认访问地址：localhost:8080
+
+# 联系我
+QQ：625524931
+Mail：625524931@qq.com
