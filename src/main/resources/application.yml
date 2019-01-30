@@ -15,7 +15,7 @@ spring:
           paths: /**
 
   profiles:
-    include: template,target
+    include: cms-template,cms-target
 
 
 

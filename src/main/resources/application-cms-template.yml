@@ -1,6 +1,6 @@
 ydf:
   template:
-    base-path: classes/resources/template
+    base-path: classes/resources/template/cms
     page:
       list:
         directory: ${ydf.template.base-path}/page

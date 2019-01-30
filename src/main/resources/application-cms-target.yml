@@ -1,4 +1,4 @@
-# targetEntityClassName, targetEntityVariableName，basePackagePath等变量是 GenerateEntity.java类的字段
+# targetEntityClassName, targetEntityVariableName，basePackagePath等变量取自GenerateEntity.java类的字段
 ydf:
   target:
     baseDir: d:/code/
