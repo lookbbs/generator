@@ -4,14 +4,14 @@
             render: {
                 url: getCtxPath() + '/${targetEntityVariableName}/list',
                 cols: [[
-                    {field: true, fixed: true, title: '序号', width: '80', templet: '<div>{{d.LAY_TABLE_INDEX + 1}}</div>', align: 'center'},
+                    {title: '序号', width: '80', templet: '<div>{{d.LAY_TABLE_INDEX + 1}}</div>', align: 'center'},
             <#if columns??>
                 <#list columns as col>
                     <#if col.config.show>
                         <#if col.javaType == 'Date'>
-                    {field: '${col.config.fieldName}', title: '${col.config.fieldText}', width: '10%', align: 'center',templet: '<div>{{ honglu.util.dateFormat(d.${col.config.fieldName}) }}</div>'},
+                    {field: '${col.config.fieldName}', title: '${col.config.fieldText}', width: '10%',${col.config.sort?string ("sort: true,","")} align: 'center',templet: '<div>{{ honglu.util.dateFormat(d.${col.config.fieldName}) }}</div>'},
                         <#else>
-                    {field: '${col.config.fieldName}', title: '${col.config.fieldText}', width: '10%', align: 'center'},
+                    {field: '${col.config.fieldName}', title: '${col.config.fieldText}', width: '10%',${col.config.sort?string ("sort: true,","")} align: 'center'},
                         </#if>
                     </#if>
                 </#list>

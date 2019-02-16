@@ -49,6 +49,9 @@
     <script type="text/html" id="switchCanEditTpl">
         <input type="checkbox" name="canEdit" data-state="{{d.config.canEdit}}" lay-skin="switch" lay-filter="canEditSwitch" lay-text="是|否" {{# if(d.config.canEdit) { }}checked{{# }}}>
     </script>
+    <script type="text/html" id="switchSortTpl">
+        <input type="checkbox" name="sort" data-state="{{d.config.sort}}" lay-skin="switch" lay-filter="sort" lay-text="是|否" {{# if(d.config.sort) { }}checked{{# }}}>
+    </script>
 </div>
 <style type="text/css">
     .layui-form-item .layui-input-inline {

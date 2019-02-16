@@ -154,6 +154,7 @@ public class TableServiceImpl implements TableService {
                     item.setCanEdit(c.getCanEdit());
                     item.setNullable(c.getNullable());
                     item.setFieldText(c.getFieldText());
+                    item.setSort(c.getSort());
                 });
                 config.setConfigItems(configItems);
                 entityMemory.setConfig(config);

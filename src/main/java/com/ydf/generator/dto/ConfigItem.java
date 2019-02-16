@@ -29,6 +29,10 @@ public class ConfigItem {
      */
     private Boolean canEdit = Boolean.TRUE;
     /**
+     * 是否可排序
+     */
+    private Boolean sort = Boolean.FALSE;
+    /**
      * 对应的列名称
      */
     private String columnName;

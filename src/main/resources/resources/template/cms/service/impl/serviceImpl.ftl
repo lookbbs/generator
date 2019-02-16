@@ -8,6 +8,7 @@ import ${packageConfig.model}.${targetEntityClassName};
 import ${packageConfig.service}.${targetEntityClassName}Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,7 +50,21 @@ public class ${targetEntityClassName}ServiceImpl extends BaseServiceImpl<${targe
 
     @Override
     public PageInfo<${targetEntityClassName}> selectListByPageable(${targetEntityClassName} condition, Pageable pageable) {
+        Sort sort = pageable.getSort();
+        Iterator<Sort.Order> it = sort.iterator();
+        StringBuilder sb = new StringBuilder();
+        while (it.hasNext()) {
+            Sort.Order next = it.next();
+            String s = next.getProperty().replaceAll("([A-Z]|\\d+)", "_$1");
+            sb.append("`").append(s.toLowerCase()).append("`").append(" ").append(next.getDirection()).append(",");
+        }
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        if (sb.length() > 0) {
+            PageHelper.orderBy(sb.toString());
+        }
         List<${targetEntityClassName}> lst = selectList(condition);
         return new PageInfo<>(lst);
     }

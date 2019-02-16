@@ -2,9 +2,7 @@ package com.ydf.generator.service.impl;
 
 import com.ydf.generator.cache.DatabaseMemoryCache;
 import com.ydf.generator.cache.GenerateMemoryCache;
-import com.ydf.generator.cache.TableMemoryCache;
 import com.ydf.generator.dto.GenerateEntity;
-import com.ydf.generator.entity.Table;
 import com.ydf.generator.exception.GeneratorException;
 import com.ydf.generator.properties.GeneratorProperties;
 import com.ydf.generator.service.ExportService;
@@ -24,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -35,9 +34,6 @@ import java.util.zip.ZipOutputStream;
 @Service
 public class ExportServiceImpl implements ExportService {
     private Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private TableMemoryCache tableMemberCache;
 
     @Autowired
     private TemplateManager templateManager;
@@ -66,9 +62,10 @@ public class ExportServiceImpl implements ExportService {
 
         // 如果是web操作，则输出到临时目录，等待操作压缩
         String sysTemp = System.getProperty("java.io.tmpdir");
-        generatorProperties.getTarget().setBaseDir(String.format("%s/code/", sysTemp));
-        if(Files.exists(Paths.get(generatorProperties.getTarget().getBaseDir()))){
-            Files.delete(Paths.get(generatorProperties.getTarget().getBaseDir()));
+        generatorProperties.getTarget().setBaseDir(Paths.get(sysTemp, "code").toString().concat(File.separator));
+        if (Files.exists(Paths.get(generatorProperties.getTarget().getBaseDir()))) {
+            logger.info("临时存放代码的目录：{}不为空，系统准备删除目录下的所有文件夹及文件", generatorProperties.getTarget().getBaseDir());
+            deleteDirectory(Paths.get(generatorProperties.getTarget().getBaseDir()).toFile());
         }
         MbgGenerator.builder()
                 .databaseContextHolder(databaseContextHolder)
@@ -79,7 +76,6 @@ public class ExportServiceImpl implements ExportService {
 
         // singleExec:单线程，multiExec: 多线程
         templateManager.exec(tableConfigs);
-
         logger.info("### 代码生成工具，结束执行......");
         return buildZip();
     }
@@ -152,5 +148,23 @@ public class ExportServiceImpl implements ExportService {
             }
         }
         file.delete();
+    }
+
+    private void deleteDirectory(File directory) {
+        if (directory.isDirectory()) {
+            String[] list = directory.list();
+            if (ArrayUtils.isNotEmpty(list)) {
+                Arrays.stream(list).forEach(s -> {
+                    try {
+                        deleteDirectory(Paths.get(directory.getCanonicalPath(), s).toFile());
+                    } catch (IOException e) {
+                        logger.error("删除文件发生异常", e);
+                    }
+                });
+            } else {
+                directory.delete();
+            }
+        }
+        directory.delete();
     }
 }

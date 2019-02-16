@@ -13,6 +13,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,8 +60,11 @@ public class ${targetEntityClassName}Controller {
     @RequiresPermissions(value = "${targetEntityVariableName}:page")
     public String list(${targetEntityClassName} record,
                        @RequestParam("page") Integer page,
-                       @RequestParam("limit") Integer size) {
-        Pageable pageable = new PageRequest(page, size);
+                       @RequestParam("limit") Integer size,
+                       @RequestParam(value = "sort", defaultValue = "id") String sortField,
+                       @RequestParam(name = "direction", defaultValue = "desc") String direction) {
+        Sort sort = new Sort(Sort.Direction.fromString(direction), sortField);
+        Pageable pageable = new PageRequest(page, size, sort);
         PageInfo<${targetEntityClassName}> pageInfo = ${targetEntityVariableName}Service.selectListByPageable(record, pageable);
         ReType reType = new ReType(pageInfo.getTotal(), pageInfo.getList());
         return JSON.toJSONString(reType);

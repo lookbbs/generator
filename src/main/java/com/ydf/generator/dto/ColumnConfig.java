@@ -17,5 +17,6 @@ public class ColumnConfig {
     private String fieldText;
     private Boolean nullable;
     private Boolean canEdit;
+    private Boolean sort;
 
 }

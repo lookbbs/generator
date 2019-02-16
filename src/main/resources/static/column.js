@@ -20,7 +20,8 @@ layui.use(['table'], function () {
             {field: 'showTitle', width: 400, title: '显示的名称', templet: '#fieldTextTpl'},
             {field: 'show', width: 150, title: '列表中显示该列', templet: '#switchShowTpl'},
             {field: 'search', width: 150, title: '是搜索条件', templet: '#switchSearchTpl'},
-            {field: 'canEdit', width: 150, title: '可编辑', templet: '#switchCanEditTpl'}
+            {field: 'canEdit', width: 150, title: '可编辑', templet: '#switchCanEditTpl'},
+            {field: 'sort', width: 150, title: '可排序', templet: '#switchSortTpl'}
         ]]
     });
 });
