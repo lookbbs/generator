@@ -5,6 +5,7 @@ import com.ydf.generator.dto.BuildFileConfig;
 import com.ydf.generator.dto.GenerateEntity;
 import com.ydf.generator.dto.TableDto;
 import com.ydf.generator.entity.Table;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @author yuandongfei
  * @date 2018/12/4
  */
+@Slf4j
 @Component
 public class TemplateManager {
 
@@ -33,7 +35,11 @@ public class TemplateManager {
             tableConfigs.forEach(entity -> templates.forEach(template -> {
                 BuildFileConfig buildFileConfig = buildFileConfigMemberCache.get(template.getName());
                 if (null != buildFileConfig && buildFileConfig.getEnable()) {
-                    template.process(entity);
+                    try {
+                        template.process(entity);
+                    } catch (Throwable e) {
+                        log.error(">>> 模板处理程序：{}，处理表：{}时发生异常", template.getClass().getSimpleName(), entity.getTableName(), e);
+                    }
                 }
             }));
         }

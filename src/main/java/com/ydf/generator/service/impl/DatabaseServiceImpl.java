@@ -9,6 +9,7 @@ import com.ydf.generator.service.DatabaseService;
 import com.ydf.generator.template.FreemarkerProcessor;
 import com.ydf.generator.thread.DatabaseContextHolder;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,9 @@ public class DatabaseServiceImpl implements DatabaseService {
         // 此时系统还没有将数据库的配置保存到内存中，所以需要进行url的处理
         DatabaseDialect databaseDialect = DatabaseDialect.getDatabaseDialect(db.getDialect());
         if (null != databaseDialect) {
+            if (StringUtils.isBlank(db.getSchema())) {
+                db.setSchema(databaseDialect.getMetaSchema());
+            }
             formatUrl(databaseDialect.getUrl(), db);
         }
         return databaseHolder.findDatabaseDao(db.getDialect()).getDbList(db);

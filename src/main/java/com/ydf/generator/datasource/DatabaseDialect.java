@@ -12,8 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 public enum DatabaseDialect {
 
-    MySql("com.mysql.jdbc.Driver", "jdbc:mysql://${host}:${port}/information_schema?useUnicode=true&characterEncoding=${encoding}", "`", "`"),
-    MySql8("com.mysql.cj.jdbc.Driver", "jdbc:mysql://${host}:${port}/information_schema?useUnicode=true&characterEncoding=${encoding}");
+    MySql("com.mysql.jdbc.Driver", "jdbc:mysql://${host}:${port}/${schema}?useUnicode=true&characterEncoding=${encoding}", "information_schema", "`", "`"),
+    MySql8("com.mysql.cj.jdbc.Driver", "jdbc:mysql://${host}:${port}/${schema}?useUnicode=true&characterEncoding=${encoding}", "information_schema", "`", "`");
 
     /**
      * 连接数据库的驱动类名
@@ -24,6 +24,10 @@ public enum DatabaseDialect {
      */
     private String url;
     /**
+     * 元数据库（默认的）
+     */
+    private String metaSchema;
+    /**
      * 数据库的用于标记数据库对象名的开始符号，比如ORACLE就是双引号，MYSQL默认是`反引号
      */
     private String beginningDelimiter;
@@ -32,14 +36,10 @@ public enum DatabaseDialect {
      */
     private String endingDelimiter;
 
-    DatabaseDialect(String driverClass, String url) {
+    DatabaseDialect(String driverClass, String url, String metaSchema, String beginningDelimiter, String endingDelimiter) {
         this.driverClass = driverClass;
         this.url = url;
-    }
-
-    DatabaseDialect(String driverClass, String url, String beginningDelimiter, String endingDelimiter) {
-        this.driverClass = driverClass;
-        this.url = url;
+        this.metaSchema = metaSchema;
         this.beginningDelimiter = beginningDelimiter;
         this.endingDelimiter = endingDelimiter;
     }

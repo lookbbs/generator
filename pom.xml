@@ -129,6 +129,13 @@
                 <configuration>
                     <fork>true</fork>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <dependencies>
                     <!-- spring热部署 -->
                     <dependency>

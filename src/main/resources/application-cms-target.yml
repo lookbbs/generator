@@ -30,8 +30,8 @@ ydf:
 
     server:
       packages:
-        model: ${ydf.target.basePackage}.model
-        client: ${ydf.target.basePackage}.mapper
+        model: ${ydf.target.basePackage}.entity
+        client: ${ydf.target.basePackage}.dao
         service: ${ydf.target.basePackage}.service
         controller: ${ydf.target.basePackage}.web.controller
       controller:
@@ -44,7 +44,7 @@ ydf:
         directory: ${ydf.target.root.java}${basePackagePath}/service/impl/
         fileName: ${targetEntityClassName}ServiceImpl.java
       dao:
-        directory: ${ydf.target.root.java}${basePackagePath}/mapper
+        directory: ${ydf.target.root.java}${basePackagePath}/dao/
         fileName: ${targetEntityClassName}Mapper.java
       mapper:
         directory: ${ydf.target.root.resources}/mapper/extend/

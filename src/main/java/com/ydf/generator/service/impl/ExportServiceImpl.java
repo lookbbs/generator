@@ -67,6 +67,7 @@ public class ExportServiceImpl implements ExportService {
             logger.info("临时存放代码的目录：{}不为空，系统准备删除目录下的所有文件夹及文件", generatorProperties.getTarget().getBaseDir());
             deleteDirectory(Paths.get(generatorProperties.getTarget().getBaseDir()).toFile());
         }
+        // mybatis generator 代码生成工具开始执行
         MbgGenerator.builder()
                 .databaseContextHolder(databaseContextHolder)
                 .databaseMemberCache(databaseMemberCache)
@@ -74,7 +75,7 @@ public class ExportServiceImpl implements ExportService {
                 .targetProperties(generatorProperties.getTarget())
                 .build().generate();
 
-        // singleExec:单线程，multiExec: 多线程
+        // 自定义代码模板开始执行生成
         templateManager.exec(tableConfigs);
         logger.info("### 代码生成工具，结束执行......");
         return buildZip();

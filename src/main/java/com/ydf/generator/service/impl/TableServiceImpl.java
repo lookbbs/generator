@@ -11,6 +11,7 @@ import com.ydf.generator.exception.GeneratorException;
 import com.ydf.generator.properties.GeneratorProperties;
 import com.ydf.generator.properties.TargetProperties;
 import com.ydf.generator.service.TableService;
+import com.ydf.generator.thread.ThreadManager;
 import com.ydf.generator.util.ObjectMapperUtil;
 import com.ydf.generator.util.StringTools;
 import org.apache.commons.collections4.CollectionUtils;
