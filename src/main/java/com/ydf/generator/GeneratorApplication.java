@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date
  */
 @Controller
-@RequestMapping
+@RequestMapping("/")
 @EnableSwagger2
 @SpringBootApplication
 public class GeneratorApplication {
@@ -23,6 +23,6 @@ public class GeneratorApplication {
 
     @GetMapping
     public String index() {
-        return "/index";
+        return "index";
     }
 }
