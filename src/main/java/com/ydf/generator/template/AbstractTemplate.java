@@ -51,9 +51,9 @@ public abstract class AbstractTemplate implements GeneratorTemplate {
         tarAttr.setPath(String.format("%s%s", generatorProperties.getTarget().getBaseDir(), path));
 
         try {
-            log.info("### 处理对象{}读取模板文件：{}，生成目标文件：{}。开始。。。", getClass().getSimpleName(), tmpAttr.getName(), tarAttr.getName());
+            log.info(">>> 处理对象{}读取模板文件：{}，生成目标文件：{}。开始。。。", getClass().getSimpleName(), tmpAttr.getName(), tarAttr.getName());
             File file = freemarkerProcessor.writeToFile(tmpAttr, tarAttr);
-            log.info("### 处理对象{}读取模板文件：{}，生成目标文件：{}。结束。。。", getClass().getSimpleName(), tmpAttr.getName(), file.getCanonicalPath());
+            log.info(">>> 处理对象{}读取模板文件：{}，生成目标文件：{}。结束。。。", getClass().getSimpleName(), tmpAttr.getName(), file.getCanonicalPath());
         } catch (IOException e) {
             log.error(">>>处理对象{}读取模板文件：{} --> 目标文件：{} 发生异常", tmpAttr.getName(), tarAttr.getName());
         }

@@ -2,6 +2,13 @@ layui.use(['form'], function () {
     const form = layui.form,
         $ = layui.$;
 
+    form.val('dbConfig', {
+        host: '172.16.0.235',
+        port: '3306',
+        username: 'game',
+        password: 'gjz1opsdsbJefcDkbC'
+    })
+
     form.on('select(dialect)', function (obj) {
         const url = obj.elem.form.action + '/' + obj.value
         $.getJSON(url, function (result) {

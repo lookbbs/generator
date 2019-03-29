@@ -15,7 +15,7 @@ spring:
           paths: /**
 
   profiles:
-    include: cms-template,cms-target
+    include: chat-target,chat-template
 
 
 

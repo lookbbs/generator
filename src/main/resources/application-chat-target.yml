@@ -1,0 +1,51 @@
+# targetEntityClassName, targetEntityVariableName，basePackagePath等变量取自GenerateEntity.java类的字段
+ydf:
+  target:
+    baseDir: d:/code/
+    basePackage: com.honglu.game.chat
+    root:
+      java: src/main/java/
+      resources: src/main/resources/
+
+    page:
+      list:
+        directory: ${ydf.target.root.resources}page/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}List.ftl
+      add:
+        directory: ${ydf.target.root.resources}page/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}Add.ftl
+      edit:
+        directory: ${ydf.target.root.resources}page/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}Edit.ftl
+      detail:
+        directory: ${ydf.target.root.resources}page/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}Detail.ftl
+    js:
+      list:
+        directory: ${ydf.target.root.resources}js/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}List.js
+      edit:
+        directory: ${ydf.target.root.resources}js/${targetEntityVariableName}/
+        fileName: ${targetEntityVariableName}Edit.js
+
+    server:
+      packages:
+        model: ${ydf.target.basePackage}.entity
+        client: ${ydf.target.basePackage}.dao
+        service: ${ydf.target.basePackage}.service
+        controller: ${ydf.target.basePackage}.web.controller
+      controller:
+        directory: ${ydf.target.root.java}${basePackagePath}/web/controller/
+        fileName: ${targetEntityClassName}Controller.java
+      service:
+        directory: ${ydf.target.root.java}${basePackagePath}/service/
+        fileName: ${targetEntityClassName}Service.java
+      serviceImpl:
+        directory: ${ydf.target.root.java}${basePackagePath}/service/impl/
+        fileName: ${targetEntityClassName}ServiceImpl.java
+      dao:
+        directory: ${ydf.target.root.java}${basePackagePath}/dao/
+        fileName: ${targetEntityClassName}Mapper.java
+      mapper:
+        directory: ${ydf.target.root.resources}/mapper/extend/
+        fileName: ${targetEntityClassName}Mapper.xml

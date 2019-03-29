@@ -1,0 +1,41 @@
+ydf:
+  template:
+    base-path: /resources/template/cms
+    page:
+      list:
+        directory: ${ydf.template.base-path}/page
+        file-name: list.ftl
+      add:
+        directory: ${ydf.template.base-path}/page
+        file-name: add.ftl
+      edit:
+        directory: ${ydf.template.base-path}/page
+        file-name: edit.ftl
+      detail:
+        directory: ${ydf.template.base-path}/page
+        file-name: view.ftl
+
+    js:
+      list:
+        directory: ${ydf.template.base-path}/js
+        file-name: list.ftl
+      edit:
+        directory: ${ydf.template.base-path}/js
+        file-name: edit.ftl
+
+    server:
+      controller:
+        directory: ${ydf.template.base-path}/controller
+        file-name: controller.ftl
+      service:
+        directory: ${ydf.template.base-path}/service
+        file-name: service.ftl
+      service-impl:
+        directory: ${ydf.template.base-path}/service/impl
+        file-name: serviceImpl.ftl
+      dao:
+        directory: ${ydf.template.base-path}/dao
+        file-name: mapper.ftl
+      mapper:
+        directory: ${ydf.template.base-path}/mapper
+        file-name: mapper.ftl
